@@ -20,7 +20,6 @@ const StyledProductListItem = styled.div`
         max-width: 300px;
     }
     .price-div {
-        align-self: center;
     }
 
     .actions-div {
@@ -30,27 +29,52 @@ const StyledProductListItem = styled.div`
 `
 
 
-export const ItemListLayout: React.FC<{items: Item[]}> = ({items}) => {
-    
-    return (
-        <div className="product-list">
+export const ItemListLayout: React.FC<{items: Item[], submitInformation: (e:any) => void}> = ({submitInformation, items}) => {
+
+ 
+        return (
+            <div className="product-list">
             {items.map((item) => {
                 
                 // const isInCart = cartItems.find(item => item.id == product.id)
                 return (
                     <StyledProductListItem className="product-list-item" key={item.itemNumber}>
+                        <div className="item-info-box">
+                            <div>
+                            <h3>{item.itemNumber}</h3>
+                            </div>
                         <div className="title-div">
                             <h3>{item.itemName}</h3>
                         </div>
                         <div className="price-div">
                             <b>${item.price.toFixed(2)}</b>
                         </div>
+                        </div>
                         <div className="actions-div">
-                                <>
-                                <Button >Remove From Cart</Button>
-                                <Button >Add To Cart</Button>
-                                </>
-                            )
+                            <form>
+                                <p>Item Number:</p>
+                                <input 
+                                // ref={newItemNumber}
+                                onChange={submitInformation}
+                                >
+                                </input>
+                                <Button>Submit</Button>
+                                {/* <p>Item Name:</p>
+                                <input 
+                                value={newItemName}
+                                >
+                                </input>
+                                <p>Item Price:</p>
+                                <input 
+                                value={newItemPrice}
+                                >
+                                </input>
+                                <p>Item Quantity:</p>
+                                <input 
+                                value={newItemQuantity}
+                                >
+                                </input> */}
+                                </form>
                         </div>
                     </StyledProductListItem>
                 )

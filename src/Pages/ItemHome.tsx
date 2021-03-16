@@ -4,6 +4,7 @@ import { FixedMenuLayout } from "../Components/Layout/FixedMenuLayout"
 import { ItemListLayout } from "../Components/Item/ItemList"
 import { Item } from "../types/Item"
 
+
 const itemList: Item[] = [
     {
         itemNumber: 9003232,
@@ -14,8 +15,18 @@ const itemList: Item[] = [
 ]
 
 export const ItemHome: React.FC = () => {
+    const [itemInfo, setItemInfo] = useState({
+        itemNumber: '', itemName: '', price: '', quantity: '' 
+    })
     // const [cartItems, setCartItems]= useState<CartItem[]>([])
     // const [newCartItems, setNewCartItems]= useState<CartItem[]>([])
+    
+    const submitInformation = (e:any) => {
+        console.log("testing")
+        console.log(e.target.value)
+    }
+
+
 
     return <div className="cart-page">
         <FixedMenuLayout>
@@ -23,7 +34,7 @@ export const ItemHome: React.FC = () => {
 
             <Grid>
                 <Grid.Column width="12">
-                    <ItemListLayout items={itemList} />
+                    <ItemListLayout items={itemList} submitInformation={submitInformation} />
                 </Grid.Column>
             </Grid>
         </FixedMenuLayout>
