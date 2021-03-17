@@ -22,8 +22,7 @@ export const ItemHome: React.FC = () => {
     // const [newCartItems, setNewCartItems]= useState<CartItem[]>([])
     
     const submitInformation = (e:any) => {
-        console.log("testing")
-        console.log(e.target.value)
+        console.log(e.target.name)
     }
 
 

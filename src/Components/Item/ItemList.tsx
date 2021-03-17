@@ -51,29 +51,40 @@ export const ItemListLayout: React.FC<{items: Item[], submitInformation: (e:any)
                         </div>
                         </div>
                         <div className="actions-div">
-                            <form>
-                                <p>Item Number:</p>
+                            <form onSubmit={submitInformation}>
                                 <input 
-                                // ref={newItemNumber}
+                                name='itemNumber'
+                                placeholder="Item Number"
+                                id="itemNumber"
                                 onChange={submitInformation}
                                 >
                                 </input>
                                 <Button>Submit</Button>
-                                {/* <p>Item Name:</p>
+                                {/* <br></br>
                                 <input 
-                                value={newItemName}
+                                name='itemName'
+                                placeholder="Item Name"
+                                id="itemName"
+                                onChange={submitInformation}
                                 >
                                 </input>
-                                <p>Item Price:</p>
+                                <br></br>
                                 <input 
-                                value={newItemPrice}
+                                name='itemPrice'
+                                placeholder="Item Price"
+                                id="itemPrice"
+                                onChange={submitInformation}
                                 >
                                 </input>
-                                <p>Item Quantity:</p>
+                                <br></br>
                                 <input 
-                                value={newItemQuantity}
+                                name='itemQuantity'
+                                placeholder="Item Quantity"
+                                id="itemQuantity"
+                                onChange={submitInformation}
                                 >
                                 </input> */}
+                                {/* <br></br> */}
                                 </form>
                         </div>
                     </StyledProductListItem>
