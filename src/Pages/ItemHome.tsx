@@ -7,22 +7,22 @@ import { Item } from "../types/Item"
 
 const itemList: Item[] = [
     {
-        itemNumber: 9003232,
-        itemName: 'Vizio 32"',
-        price: 399.99,
-        quantity: 1
+        itemNumber: 9003232
+        // itemName: 'Vizio 32"',
+        // price: 399.99,
+        // quantity: 1
     }
 ]
 
 export const ItemHome: React.FC = () => {
-    const [itemInfo, setItemInfo] = useState({
-        itemNumber: '', itemName: '', price: '', quantity: '' 
-    })
+    const [itemTest, setItemTest] = useState([])
     // const [cartItems, setCartItems]= useState<CartItem[]>([])
     // const [newCartItems, setNewCartItems]= useState<CartItem[]>([])
     
     const submitInformation = (e:any) => {
-        console.log(e.target.name)
+        e.preventDefault()
+        setItemTest(e.target.itemNumber.value)
+        console.log(itemTest)
     }
 
 

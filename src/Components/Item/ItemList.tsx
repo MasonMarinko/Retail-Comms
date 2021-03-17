@@ -31,6 +31,7 @@ const StyledProductListItem = styled.div`
 
 export const ItemListLayout: React.FC<{items: Item[], submitInformation: (e:any) => void}> = ({submitInformation, items}) => {
 
+
  
         return (
             <div className="product-list">
@@ -44,10 +45,10 @@ export const ItemListLayout: React.FC<{items: Item[], submitInformation: (e:any)
                             <h3>{item.itemNumber}</h3>
                             </div>
                         <div className="title-div">
-                            <h3>{item.itemName}</h3>
+                            {/* <h3>{item.itemName}</h3> */}
                         </div>
                         <div className="price-div">
-                            <b>${item.price.toFixed(2)}</b>
+                            {/* <b>${item.price.toFixed(2)}</b> */}
                         </div>
                         </div>
                         <div className="actions-div">
@@ -56,10 +57,10 @@ export const ItemListLayout: React.FC<{items: Item[], submitInformation: (e:any)
                                 name='itemNumber'
                                 placeholder="Item Number"
                                 id="itemNumber"
-                                onChange={submitInformation}
+                                // onChange={submitInformation}
                                 >
                                 </input>
-                                <Button>Submit</Button>
+                                <Button onSubmit={submitInformation}>Submit</Button>
                                 {/* <br></br>
                                 <input 
                                 name='itemName'
