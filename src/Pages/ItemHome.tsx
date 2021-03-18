@@ -7,29 +7,35 @@ import { Item } from "../types/Item"
 
 const itemList: Item[] = [
     {
-        itemNumber: 9003232
-        // itemName: 'Vizio 32"',
-        // price: 399.99,
-        // quantity: 1
+        itemNumber: 9003232,
+        itemName: 'Vizio 32"',
+        price: 399.99,
+        quantity: 1
     }
 ]
+console.log(itemList)
 
 export const ItemHome: React.FC = () => {
-    const [itemTest, setItemTest] = useState([])
+    const [itemLists, setItemLists] = useState<Item[]>([])
     // const [cartItems, setCartItems]= useState<CartItem[]>([])
     // const [newCartItems, setNewCartItems]= useState<CartItem[]>([])
     
     const submitInformation = (e:any) => {
         e.preventDefault()
-        setItemTest(e.target.itemNumber.value)
-        console.log(itemTest)
+        const addedItemNumber = e.target.itemNumber.value
+        const addedItemName = e.target.itemName.value
+        const addedItemPrice = e.target.itemPrice.value
+        const addedItemQuantity = e.target.itemQuantity.value
+        const items = [...itemList]
+        itemList.push({itemNumber: addedItemNumber, itemName: addedItemName, price: addedItemPrice, quantity: addedItemQuantity })
+        setItemLists(items)
     }
 
 
 
     return <div className="cart-page">
         <FixedMenuLayout>
-            <Header size="large" content="Add Items To Cart" />
+            <Header size="large" content="Add Items To List" />
 
             <Grid>
                 <Grid.Column width="12">
