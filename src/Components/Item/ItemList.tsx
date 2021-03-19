@@ -30,7 +30,6 @@ const StyledProductListItem = styled.div`
 
 export const ItemListLayout: React.FC<{
   items: Item[];
-  comments:Comment[];
   submitInformation: (e: any) => void;
 }> = ({ submitInformation, items }) => {
   return (
@@ -61,9 +60,6 @@ export const ItemListLayout: React.FC<{
         </form>
       </div>
       {items.map((item) => {
-        const isOnList = items.find(
-          (item) => item.itemNumber == item.itemNumber
-        );
         return (
           <StyledProductListItem
             className="product-list-item"
