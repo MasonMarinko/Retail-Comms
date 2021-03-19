@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Item } from "../../types/Item";
+import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button, Image } from "semantic-ui-react";
 
@@ -10,7 +11,6 @@ const StyledProductListItem = styled.div`
   & > div {
     padding: 10px;
   }
-
   .image-div {
     img {
       max-width: 150px;
@@ -30,6 +30,7 @@ const StyledProductListItem = styled.div`
 
 export const ItemListLayout: React.FC<{
   items: Item[];
+  comments:Comment[];
   submitInformation: (e: any) => void;
 }> = ({ submitInformation, items }) => {
   return (
@@ -77,6 +78,9 @@ export const ItemListLayout: React.FC<{
               </div>
               <div className="price-div">
                 <b>${item.price}</b>
+              </div>
+              <div className="quantity-div">
+                <h3>{item.quantity}</h3>
               </div>
             </div>
           </StyledProductListItem>

@@ -3,6 +3,7 @@ import { Grid, Header } from "semantic-ui-react"
 import { FixedMenuLayout } from "../Components/Layout/FixedMenuLayout"
 import { ItemListLayout } from "../Components/Item/ItemList"
 import { Item } from "../types/Item"
+import { Comment } from "../types/Comment"
 
 
 const itemList: Item[] = [
@@ -13,7 +14,12 @@ const itemList: Item[] = [
         quantity: 1
     }
 ]
-console.log(itemList)
+
+const commentList: Comment[] = [
+    {
+        message: "testing this thing for use"
+    }
+]
 
 export const ItemHome: React.FC = () => {
     const [itemLists, setItemLists] = useState<Item[]>([])
@@ -39,7 +45,7 @@ export const ItemHome: React.FC = () => {
 
             <Grid>
                 <Grid.Column width="12">
-                    <ItemListLayout items={itemList} submitInformation={submitInformation} />
+                    <ItemListLayout items={itemList} comments={commentList} submitInformation={submitInformation} />
                 </Grid.Column>
             </Grid>
         </FixedMenuLayout>
