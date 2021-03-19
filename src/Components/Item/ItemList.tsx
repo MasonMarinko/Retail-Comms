@@ -21,7 +21,6 @@ const StyledProductListItem = styled.div`
   }
   .price-div {
   }
-
   .actions-div {
     margin-left: auto;
     align-self: center;
@@ -31,7 +30,8 @@ const StyledProductListItem = styled.div`
 export const ItemListLayout: React.FC<{
   items: Item[];
   submitInformation: (e: any) => void;
-}> = ({ submitInformation, items }) => {
+  removeItem: (e: any) => void;
+}> = ({ submitInformation, removeItem, items }) => {
   return (
     <div className="product-list">
       <div className="actions-div">
@@ -62,12 +62,15 @@ export const ItemListLayout: React.FC<{
       {items.map((item) => {
         return (
           <StyledProductListItem
-            className="product-list-item"
-            key={item.itemNumber}
+          className="product-list-item"
+          key={item.itemNumber}
           >
             <div className="item-info-box">
               <div>
-                <h3>{item.itemNumber}</h3>
+                  <h3
+                id = "itemNumber">
+                  {item.itemNumber}
+                  </h3>
               </div>
               <div className="title-div">
                 <h3>{item.itemName}</h3>
@@ -78,6 +81,8 @@ export const ItemListLayout: React.FC<{
               <div className="quantity-div">
                 <h3>{item.quantity}</h3>
               </div>
+                <Button>EDIT</Button>
+                <Button onClick={()=>removeItem(item)}>REMOVE</Button>
             </div>
           </StyledProductListItem>
         );

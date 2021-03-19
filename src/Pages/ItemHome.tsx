@@ -8,12 +8,6 @@ import { Comment } from "../types/Comment"
 
 
 const itemList: Item[] = [
-    {
-        itemNumber: 9003232,
-        itemName: 'Vizio 32"',
-        price: 399.99,
-        quantity: 1
-    }
 ]
 
 const commentList: Comment[] = [
@@ -38,7 +32,7 @@ export const ItemHome: React.FC = () => {
         itemList.push({itemNumber: addedItemNumber, itemName: addedItemName, price: addedItemPrice, quantity: addedItemQuantity })
         setItemLists(items)
     }
-
+    
     const submitComment = (e:any) => {
         e.preventDefault()
         const addedCommentID = commentList.length + 1
@@ -47,7 +41,15 @@ export const ItemHome: React.FC = () => {
         commentList.push({id: addedCommentID, message: addedComment })
         setCommentLists(items)
     }
-
+    
+    const removeItem = (item:Item) => {
+        const itemIndex = itemLists.findIndex(product => product.itemNumber == item.itemNumber)
+        console.log(itemIndex)
+        console.log(itemLists)
+        const items = [...itemLists]
+        // // items.splice(itemIndex, 1)
+        // setItemLists(items)
+    }
 
 
     return <div className="cart-page">
@@ -55,7 +57,7 @@ export const ItemHome: React.FC = () => {
             <Header size="large" content="Add Items To List" />
             <Grid>
                 <Grid.Column width="12">
-                    <ItemListLayout items={itemList} submitInformation={submitInformation} />
+                    <ItemListLayout items={itemList} removeItem={removeItem}  submitInformation={submitInformation} />
                 </Grid.Column>
             </Grid>
                 <Header size="large" content="Add Comments" />
