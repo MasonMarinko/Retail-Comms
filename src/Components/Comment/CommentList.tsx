@@ -30,13 +30,13 @@ const StyledProductListItem = styled.div`
 
 export const CommentListLayout: React.FC<{
     comments:Comment[];
-    submitComment: (e: any) => void;
+    addComment: (comment:Comment) => void;
     removeComment: (comment:Comment) => void;
-  }> = ({ comments, submitComment, removeComment }) => {
+  }> = ({ comments, addComment, removeComment }) => {
     return (
       <div className="form-comment-container">
         <div className="form-div-comments">
-          <form className = "form-comments-format" onSubmit={submitComment}>
+          <form className = "form-comments-format" >
           <input
             className = "info-input-comments"
             name="employeeName"
@@ -51,7 +51,7 @@ export const CommentListLayout: React.FC<{
             id="comment">
           </textarea>
           <br></br>
-          <Button className = "comment-submit-button">Submit</Button>
+          <Button onClick={()=>addComment} className = "comment-submit-button">Submit</Button>
           </form>
         </div>
               {comments.map((comment) => {

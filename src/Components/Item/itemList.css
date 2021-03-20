@@ -9,6 +9,13 @@
     border-style: outset;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 .item-info {
     font-size: 18px;
     margin-top: 0px;

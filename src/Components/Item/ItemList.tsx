@@ -30,13 +30,13 @@ const StyledProductListItem = styled.div`
 
 export const ItemListLayout: React.FC<{
   items: Item[];
-  submitInformation: (e: any) => void;
+  addItem: (item:Item) => void;
   removeItem: (item:Item) => void;
-}> = ({ submitInformation, removeItem, items }) => {
+}> = ({ addItem, removeItem, items }) => {
   return (
     <div className="container">
       <div className="actions-div">
-        <form className = "form-format" onSubmit={submitInformation}>
+        <form className = "form-format">
         <input
             className = "info-input"
             name="employeeName"
@@ -72,7 +72,7 @@ export const ItemListLayout: React.FC<{
             id="itemQuantity"
           ></input>
           <br></br>
-          <Button>Submit</Button>
+          <Button onClick={()=>addItem}>Submit</Button>
         </form>
       </div>
       {items.map((item) => {
