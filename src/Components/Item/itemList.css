@@ -1,0 +1,41 @@
+.item-headers {
+    font-size: 25px;
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+
+.form-format {
+    padding: 5px 5px 5px 5px;
+    border-style: outset;
+}
+
+.item-info {
+    font-size: 18px;
+    margin-top: 0px;
+    padding-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    border-bottom: 1px solid #7A7A7A;
+}
+
+.item-info-bottom {
+    font-size: 20px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+}
+
+.item-info-box {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    margin-left: 15px;
+    padding-left: 0px;
+}
+
+.info-input {
+    font-size: 18px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}

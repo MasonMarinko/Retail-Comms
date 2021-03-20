@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
-import { Button, Image } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
+import "./commentList.css";
 
 const StyledProductListItem = styled.div`
   display: flex;
-  margin-bottom: 15px;
 
   & > div {
     padding: 10px;
@@ -31,30 +31,60 @@ const StyledProductListItem = styled.div`
 export const CommentListLayout: React.FC<{
     comments:Comment[];
     submitComment: (e: any) => void;
-  }> = ({ comments, submitComment }) => {
+    removeComment: (comment:Comment) => void;
+  }> = ({ comments, submitComment, removeComment }) => {
     return (
-      <div className="product-list">
-        <div className="actions-div">
-          <form onSubmit={submitComment}>
-            <textarea name="comment" placeholder="Comment Here" id="comment"></textarea>
-            <br></br>
-            <Button>Submit</Button>
+      <div className="form-comment-container">
+        <div className="form-div-comments">
+          <form className = "form-comments-format" onSubmit={submitComment}>
+          <input
+            className = "info-input-comments"
+            name="employeeName"
+            placeholder="Your Name"
+            id="employeeName"
+          ></input>
+          <br></br>
+          <textarea 
+            className = "comment-box"
+            name="comment" 
+            placeholder="Comment Here" 
+            id="comment">
+          </textarea>
+          <br></br>
+          <Button className = "comment-submit-button">Submit</Button>
           </form>
         </div>
               {comments.map((comment) => {
           return (
-            <StyledProductListItem
-              className="product-list-item"
-              key={comment.id}
+          <StyledProductListItem
+            className="product-list-item-comment"
+            key={comment.id}
             >
-              <div className="item-info-box">
-                <div>
-                  <h3>{comment.message}</h3>
-                </div>
+            <div className = "employee-name-info">
+            <h2 className = "item-headers-comments">Posted By:</h2>
+              <h3
+                className = "item-info-comments"
+                id = "employeeName">
+                {comment.employeeName}
+              </h3>
               </div>
-            </StyledProductListItem>
+          <div className="item-info-box-comments">
+              <div className = "message-info">
+            <h2 className = "item-headers-comments">Message:</h2>
+                <h3
+                  className = "item-info-bottom-comments"
+                  id = "commentMessage">
+                    {comment.message}
+                </h3>
+                </div>
+                <div className = "comment-adjust-buttons">
+                {/* <Button>EDIT</Button> */}
+                <Button onClick={()=>removeComment(comment)}>COMPLETED</Button>
+                </div>
+          </div>
+          </StyledProductListItem>
           );
         })}
-      </div>
+        </div>
     );
   };
