@@ -29,7 +29,7 @@ export const ItemHome: React.FC = () => {
         const addedItemPrice = e.target.itemPrice.value
         const addedItemQuantity = e.target.itemQuantity.value
         const items = [...itemList]
-        itemList.push({itemNumber: addedItemNumber, itemName: addedItemName, price: addedItemPrice, quantity: addedItemQuantity })
+        items.push({itemNumber: addedItemNumber, itemName: addedItemName, price: addedItemPrice, quantity: addedItemQuantity })
         setItemLists(items)
     }
     
