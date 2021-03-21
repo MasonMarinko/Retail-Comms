@@ -14,9 +14,13 @@ export const ItemHome: React.FC = () => {
     
 
     //====== Add Items to itemList Object ======//
-    const addItem = (item:Item) => {
+    const addItem = (item:Partial<Item>) => {
+        // remove after database implementation
+        item.id = "23149087"
         const items = [...itemLists]
-        items.push(item)
+        // add to database
+        // then push response to items
+        items.push(item as Item)
         setItemLists(items)
     }
     
@@ -29,9 +33,10 @@ export const ItemHome: React.FC = () => {
     }
     
     //====== Add Comment to commentList ===========//
-    const addComment = (comment:Comment) => {
+    const addComment = (comment:Partial<Comment>) => {
+        comment.id = "340978"
         const items = [...commentLists]
-        items.push(comment)
+        items.push(comment as Comment)
         setCommentLists(items)
     }
 

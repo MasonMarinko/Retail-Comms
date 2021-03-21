@@ -30,49 +30,75 @@ const StyledProductListItem = styled.div`
 
 export const ItemListLayout: React.FC<{
   items: Item[];
-  addItem: (item:Item) => void;
+  addItem: (item:Partial<Item>) => void;
   removeItem: (item:Item) => void;
 }> = ({ addItem, removeItem, items }) => {
+  const [form, setForm]=useState({
+    employeeName:"",
+    itemNumber:"",
+    itemName:"",
+    itemPrice:"",
+    itemQuantity:"" 
+  })
+  const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
+    const data = {...form}
+    data[name] = e.target.value as string
+    setForm(data)
+  }
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const item:Partial<Item> = {
+      employeeName: form.employeeName,
+      itemNumber: parseInt(form.itemNumber),
+      itemName: form.itemName,
+      price: parseFloat(form.itemPrice),
+      quantity: parseInt(form.itemQuantity)
+    }
+    addItem(item)
+    // clear form
+  }
+
   return (
     <div className="container">
       <div className="actions-div">
-        <form className = "form-format">
+        <form onSubmit={(e:React.FormEvent<HTMLFormElement>)=>onSubmit(e)} className="form-format">
         <input
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
             className = "info-input"
-            name="employeeName"
             placeholder="Your Name"
-            id="employeeName"
+            value={form.employeeName}
           ></input>
           <br></br>
           <input
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("itemNumber", e)}
             className = "info-input"
-            name="itemNumber"
             placeholder="Item Number"
-            id="itemNumber"
+            value={form.itemNumber}
           ></input>
           <br></br>
           <input 
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("itemName", e)}
             className = "info-input"
-            name="itemName"
             placeholder="Item Name"
-            id="itemName"
+            value={form.itemName}
             ></input>
           <br></br>
           <input
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("itemPrice", e)}
             className = "info-input"
-            name="itemPrice"
             placeholder="Item Price"
-            id="itemPrice"
+            value={form.itemPrice}
           ></input>
           <br></br>
           <input
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("itemQuantity", e)}
             className = "info-input"
-            name="itemQuantity"
             placeholder="Item Quantity"
-            id="itemQuantity"
+            value={form.itemQuantity}
           ></input>
           <br></br>
-          <Button onClick={()=>addItem}>Submit</Button>
+          <Button>Submit</Button>
         </form>
       </div>
       {items.map((item) => {

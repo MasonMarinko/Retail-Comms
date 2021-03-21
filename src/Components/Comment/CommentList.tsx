@@ -30,26 +30,45 @@ const StyledProductListItem = styled.div`
 
 export const CommentListLayout: React.FC<{
     comments:Comment[];
-    addComment: (comment:Comment) => void;
+    addComment: (comment:Partial<Comment>) => void;
     removeComment: (comment:Comment) => void;
   }> = ({ comments, addComment, removeComment }) => {
+    const [form, setForm]=useState({
+      employeeName:"",
+      message: ""
+    })
+    const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>) => {
+      const data = {...form}
+      data[name] = e.target.value as string
+      setForm(data)
+    }
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      const comment:Partial<Comment> = {
+        employeeName: form.employeeName,
+        message: form.message
+      }
+      addComment(comment)
+      // clear form
+    }
     return (
       <div className="form-comment-container">
         <div className="form-div-comments">
-          <form className = "form-comments-format" >
+          <form onSubmit={(e:React.FormEvent<HTMLFormElement>)=>onSubmit(e)} className = "form-comments-format" >
           <input
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
             className = "info-input-comments"
-            name="employeeName"
             placeholder="Your Name"
-            id="employeeName"
+            value={form.employeeName}
           ></input>
           <br></br>
           <textarea 
+            onChange={(e:React.ChangeEvent<HTMLTextAreaElement>)=>onFieldChange("message", e)}
             className = "comment-box"
-            name="comment" 
             placeholder="Comment Here" 
-            id="comment">
-          </textarea>
+            value={form.message}
+            ></textarea>
           <br></br>
           <Button onClick={()=>addComment} className = "comment-submit-button">Submit</Button>
           </form>
