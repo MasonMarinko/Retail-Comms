@@ -33,6 +33,7 @@ export const ItemListLayout: React.FC<{
   addItem: (item:Partial<Item>) => void;
   removeItem: (item:Item) => void;
 }> = ({ addItem, removeItem, items }) => {
+  
   const [form, setForm]=useState({
     employeeName:"",
     itemNumber:"",
@@ -40,6 +41,7 @@ export const ItemListLayout: React.FC<{
     itemPrice:"",
     itemQuantity:"" 
   })
+
   const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...form}
     data[name] = e.target.value as string

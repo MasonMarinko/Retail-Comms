@@ -10,21 +10,25 @@
     "@types/node": "^14.14.32",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.5",
+    "mongoose": "^5.12.2",
+    "mongoose-unique-validator": "^2.0.3",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
+    "slugify": "^1.5.0",
     "styled-components": "^5.2.1",
     "typescript": "^4.2.3",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "babel-node index.js",
+    "dev:start": "clear; nodemon --exec babel-node index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +49,11 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.7"
+    "@babel/core": "^7.13.13",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
+    "@types/styled-components": "^5.1.7",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.7"
   }
 }
