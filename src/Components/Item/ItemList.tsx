@@ -57,6 +57,32 @@ export const ItemListLayout: React.FC<{
       price: parseFloat(form.itemPrice),
       quantity: parseInt(form.itemQuantity)
     }
+    let base
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      // dev code
+      base = "http://localhost:4500"
+  } else {
+      // production code
+      base = "https:www.costcoapp.com"
+  }
+
+    fetch(base + '/api/item', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(item)
+    })
+    .then(response => response.json())
+    .then(postResponse => {
+      alert('Item created successfully!');
+      console.log(postResponse);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    
     addItem(item)
     // clear form
   }
