@@ -4,7 +4,7 @@ const Types = Schema.Types
 
 const itemSchema = new Schema({
     // author: { type: 'ObjectId', ref: 'Person' }
-    fullName: { 
+    employeeName: { 
         type:  Types.String,
         required: true,
     },
@@ -17,18 +17,27 @@ const itemSchema = new Schema({
         type:  Types.String,
         required: true
     },
-    itemPrice: {
+    price: {
         type: Types.Number,
         required: false
 
     },
-    itemQuantity: {
+    quantity: {
         type: Types.Number,
         required: true
     },
     createdAt: {
         type: Types.Date,
         default: Date.now,
+    }
+});
+
+itemSchema.set('toJSON', { 
+    getters: true, 
+    virtuals: true,
+    transform: function(doc, ret) {
+        delete ret._id;
+        delete ret.__v;
     }
 });
 
