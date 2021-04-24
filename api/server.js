@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const UserController = require("./controllers/UserController");
+const ItemController = require("./controllers/ItemController");
+const CommentController = require("./controllers/CommentController");
 require('./models')
 
 mongoose.connect("mongodb://127.0.0.1/costco-app", {
@@ -12,6 +14,8 @@ mongoose.connect("mongodb://127.0.0.1/costco-app", {
 const app = express();
 
 app.use("/api/user", UserController);
+app.use("/api/item", ItemController);
+app.use("/api/comment", CommentController);
 
 
 // all accepts any HTTP method

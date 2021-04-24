@@ -3,11 +3,11 @@ var router = express.Router()
 
 // define the home page route
 router.get('/', function (req, res) {
-  res.send('Users home page')
+  res.send('Comments home page')
 })
 // define the about route
 router.get('/test', function (req, res) {
-  res.send('About Users')
+  res.send('About Comment')
 })
 
 module.exports = router
