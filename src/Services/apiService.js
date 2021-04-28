@@ -13,9 +13,9 @@ const instance = axios.create({
     baseURL: base + '/api'
   });
 
-// const retrieve = axios.get(base + '/api/item')
-// .then(function (response) {
-//     console.log(response.data)
-// })
+const retrieve = axios.get(base + '/api/item')
+.then(function (response) {
+    // console.log(response.data)
+})
 
   module.exports = instance

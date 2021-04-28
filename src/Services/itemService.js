@@ -11,8 +11,8 @@ const ItemService = {
 // const getData = {
 //     get:(data) => {
 //         return apiService.get('/item', data)
-//         .then( (result => result.data)
-//     )}
+//         .then (result => result.data)
+//     }
 // }
 
 // function getData(){

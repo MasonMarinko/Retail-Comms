@@ -3,9 +3,10 @@ import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
-import ItemService from "../../Services/itemService"
-import getData from "../../Services/itemService"
-import "./itemList.css"
+import ItemService from "../../Services/itemService";
+import getData from "../../Services/itemService";
+import "./itemList.css";
+import axios from 'axios';
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -44,6 +45,23 @@ export const ItemListLayout: React.FC<{
     itemQuantity:"" 
   })
 
+
+  const getData = async () => {
+    try {
+      return await axios.get('http://localhost:4500/api/item')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getItemData = async () => {
+    const itemData = await getData()
+    console.log(itemData?.data.items)
+  }
+
+  getItemData()
+
+
   const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...form}
     data[name] = e.target.value as string
@@ -60,18 +78,10 @@ export const ItemListLayout: React.FC<{
       quantity: parseInt(form.itemQuantity)
     }
 
+    
     ItemService.create(item)
     .then((postResponse:any) => {
       alert('Item created successfully!');
-      console.log(postResponse);
-    })
-    .catch((err:any) => {
-      console.log(err);
-    });
-    
-    getData.create(item)
-    .then((postResponse:any) => {
-      alert('Item grabbed successfully!');
       console.log(postResponse);
     })
     .catch((err:any) => {
