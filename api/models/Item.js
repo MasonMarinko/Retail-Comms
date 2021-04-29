@@ -17,12 +17,12 @@ const itemSchema = new Schema({
         type:  Types.String,
         required: true
     },
-    price: {
+    itemPrice: {
         type: Types.Number,
         required: false
 
     },
-    quantity: {
+    itemQuantity: {
         type: Types.Number,
         required: true
     },

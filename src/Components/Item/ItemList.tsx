@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
@@ -45,6 +45,9 @@ export const ItemListLayout: React.FC<{
     itemQuantity:"" 
   })
 
+  useEffect(() => {
+    getItemData()
+}, []);
 
   const getData = async () => {
     try {
@@ -55,15 +58,19 @@ export const ItemListLayout: React.FC<{
   }
 
   const getItemData = async () => {
-    const itemData = await getData()
-    console.log(itemData?.data.items)
+    const grabData = await getData()
+    const itemData = grabData?.data.items
+    const itemForm = {...itemData}
+    const data = {...form}
+    console.log(data)
+    setForm(itemForm)
   }
 
-  getItemData()
 
 
   const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...form}
+    // console.log(data)
     data[name] = e.target.value as string
     setForm(data)
   }
@@ -74,8 +81,8 @@ export const ItemListLayout: React.FC<{
       employeeName: form.employeeName,
       itemNumber: parseInt(form.itemNumber),
       itemName: form.itemName,
-      price: parseFloat(form.itemPrice),
-      quantity: parseInt(form.itemQuantity)
+      itemPrice: parseFloat(form.itemPrice),
+      itemQuantity: parseInt(form.itemQuantity)
     }
 
     
@@ -170,7 +177,7 @@ export const ItemListLayout: React.FC<{
                 <h3
                 className = "item-info"
                 >
-                  ${item.price}
+                  ${item.itemPrice}
                 </h3>
               </div>
               <div className="quantity-div">
@@ -178,7 +185,7 @@ export const ItemListLayout: React.FC<{
                 <h3
                 className = "item-info-bottom"
                 >
-                {item.quantity}
+                {item.itemQuantity}
                 </h3>
               </div>
                 {/* <Button>EDIT</Button> */}
