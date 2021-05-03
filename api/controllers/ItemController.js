@@ -24,7 +24,11 @@ router.post('/', async function (req, res) {
 
     const item = new Item
     item.set(data)
-    await item.save()
+    try {
+      await item.save()
+    } catch (err) {
+      return res.status(400).json({message: err.message})
+    }
     res.json({
         item: item.toJSON()
     })

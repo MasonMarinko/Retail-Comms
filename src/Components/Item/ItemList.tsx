@@ -6,7 +6,6 @@ import { Button } from "semantic-ui-react";
 import ItemService from "../../Services/itemService";
 import getData from "../../Services/itemService";
 import "./itemList.css";
-import axios from 'axios';
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -45,29 +44,6 @@ export const ItemListLayout: React.FC<{
     itemQuantity:"" 
   })
 
-  useEffect(() => {
-    getItemData()
-}, []);
-
-  const getData = async () => {
-    try {
-      return await axios.get('http://localhost:4500/api/item')
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const getItemData = async () => {
-    const grabData = await getData()
-    const itemData = grabData?.data.items
-    const itemForm = {...itemData}
-    const data = {...form}
-    console.log(data)
-    setForm(itemForm)
-  }
-
-
-
   const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...form}
     // console.log(data)
@@ -77,7 +53,7 @@ export const ItemListLayout: React.FC<{
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const item:Partial<Item> = {
+    const itemData:Partial<Item> = {
       employeeName: form.employeeName,
       itemNumber: parseInt(form.itemNumber),
       itemName: form.itemName,
@@ -86,16 +62,15 @@ export const ItemListLayout: React.FC<{
     }
 
     
-    ItemService.create(item)
+    ItemService.create(itemData)
     .then((postResponse:any) => {
-      alert('Item created successfully!');
-      console.log(postResponse);
+      console.log(postResponse.item);
+      addItem(postResponse.item)
     })
     .catch((err:any) => {
-      console.log(err);
+      alert(err.response.data.message)
     });
 
-    addItem(item)
     // clear form
   }
 

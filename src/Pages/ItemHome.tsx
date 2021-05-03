@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Grid, Header } from "semantic-ui-react"
+import ItemService from "../Services/itemService";
 import { FixedMenuLayout } from "../Components/Layout/FixedMenuLayout"
 import { ItemListLayout } from "../Components/Item/ItemList"
 import { CommentListLayout } from "../Components/Comment/CommentList"
@@ -12,17 +13,28 @@ export const ItemHome: React.FC = () => {
     const [itemLists, setItemLists] = useState<Item[]>([])
     const [commentLists, setCommentLists]= useState<Comment[]>([])
     
+    const getItemData = async () => {
+        const grabData = await ItemService.getAllItems()
+        console.log(grabData)
+        const itemData = grabData?.items
+        setItemLists(itemData)
+    }
+    
+    useEffect(() => {
+        getItemData()
+      }, []);
 
     //====== Add Items to itemList Object ======//
     const addItem = (item:Partial<Item>) => {
         // remove after database implementation
-        item.id = "23149087"
         const items = [...itemLists]
         // add to database
         // then push response to items
         items.push(item as Item)
         setItemLists(items)
     }
+
+
     
     //====== Remove Items from itemList Object ======//
     const removeItem = (item:Item) => {
