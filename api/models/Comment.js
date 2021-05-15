@@ -4,17 +4,26 @@ const Types = Schema.Types
 
 const commentSchema = new Schema({
     // author: { type: 'ObjectId', ref: 'Person' }
-    fullName: { 
+    employeeName: { 
         type:  Types.String,
         required: true,
     },
-    commentBody: { 
+    message: { 
         type:  Types.String,
         required: true,
     },
     createdAt: {
         type: Types.Date,
         default: Date.now,
+    }
+});
+
+commentSchema.set('toJSON', { 
+    getters: true, 
+    virtuals: true,
+    transform: function(doc, ret) {
+        delete ret._id;
+        delete ret.__v;
     }
 });
 

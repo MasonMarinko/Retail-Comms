@@ -51,6 +51,28 @@ export const ItemListLayout: React.FC<{
     setForm(data)
   }
 
+  const onRemove = (item:Item) => {
+    // e.preventDefault()
+    const itemData:Partial<Item> = {
+      itemNumber: item.itemNumber
+    }
+    console.log(item)
+
+    ItemService.delete(itemData)
+    .then((postResponse:any) => {
+      console.log(postResponse.item);
+      removeItem(postResponse.item)
+    })
+    .catch((err:any) => {
+      alert("testing")
+    });
+
+    // clear form
+  }
+
+
+
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const itemData:Partial<Item> = {
@@ -66,6 +88,15 @@ export const ItemListLayout: React.FC<{
     .then((postResponse:any) => {
       console.log(postResponse.item);
       addItem(postResponse.item)
+    })
+    .catch((err:any) => {
+      alert(err.response.data.message)
+    });
+
+    ItemService.delete(itemData)
+    .then((postResponse:any) => {
+      console.log(postResponse.item);
+      removeItem(postResponse.item)
     })
     .catch((err:any) => {
       alert(err.response.data.message)
@@ -164,7 +195,7 @@ export const ItemListLayout: React.FC<{
                 </h3>
               </div>
                 {/* <Button>EDIT</Button> */}
-                <Button onClick={()=>removeItem(item)}>REMOVE</Button>
+                <Button onClick={()=>onRemove(item)}>REMOVE</Button>
             </div>
           </StyledProductListItem>
         );

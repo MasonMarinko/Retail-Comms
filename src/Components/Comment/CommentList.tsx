@@ -3,6 +3,7 @@ import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
+import ItemService from "../../Services/itemService";
 import "./commentList.css";
 
 const StyledProductListItem = styled.div`
@@ -49,9 +50,20 @@ export const CommentListLayout: React.FC<{
         employeeName: form.employeeName,
         message: form.message
       }
+
+      
+      ItemService.create(comment)
+      .then((postResponse:any) => {
+        console.log(postResponse.comments);
+        addComment(postResponse.comments)
+      })
+      .catch((err:any) => {
+        alert(err.response.data.message)
+      });
       addComment(comment)
       // clear form
     }
+
     return (
       <div className="form-comment-container">
         <div className="form-div-comments">
