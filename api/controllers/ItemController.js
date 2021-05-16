@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 const { Item } = require("../models")
 const { pick } = require('lodash')
+const { deleteMany } = require('../models/User')
 
 // define the home page route
 router.get('/', async function (req, res) {
@@ -31,6 +32,20 @@ router.post('/', async function (req, res) {
     }
     res.json({
         item: item.toJSON()
+    })
+  })
+
+  router.delete('/:itemNumber', async function (req, res) {
+    // validation here
+    const itemNumber = req.params.itemNumber
+
+    Item.deleteMany({ itemNumber }, function(err) {
+      if (err) return console.error(err);
+      console.log("Success, its a miracle")
+    })
+
+    res.json({
+        deleted:true
     })
   })
 

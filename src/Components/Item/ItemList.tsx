@@ -52,21 +52,15 @@ export const ItemListLayout: React.FC<{
   }
 
   const onRemove = (item:Item) => {
-    // e.preventDefault()
-    const itemData:Partial<Item> = {
-      itemNumber: item.itemNumber
-    }
     console.log(item)
 
-    ItemService.delete(itemData)
+    ItemService.delete(item.itemNumber)
     .then((postResponse:any) => {
-      console.log(postResponse.item);
-      removeItem(postResponse.item)
+      removeItem(item)
     })
     .catch((err:any) => {
       alert("testing")
     });
-
     // clear form
   }
 
@@ -88,15 +82,6 @@ export const ItemListLayout: React.FC<{
     .then((postResponse:any) => {
       console.log(postResponse.item);
       addItem(postResponse.item)
-    })
-    .catch((err:any) => {
-      alert(err.response.data.message)
-    });
-
-    ItemService.delete(itemData)
-    .then((postResponse:any) => {
-      console.log(postResponse.item);
-      removeItem(postResponse.item)
     })
     .catch((err:any) => {
       alert(err.response.data.message)

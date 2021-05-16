@@ -9,9 +9,9 @@ const ItemService = {
         return apiService.get('/item', data)
         .then (result => result.data)
     },
-    delete:(data) => {
-        console.log(data)
-        return apiService.delete('/item/${id}', data)
+    delete:(itemNumber) => {
+        console.log(itemNumber)
+        return apiService.delete(`/item/${itemNumber}`)
         .then (result=>result.data)
     }
 
