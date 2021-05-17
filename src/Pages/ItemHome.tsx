@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Grid, Header } from "semantic-ui-react"
 import ItemService from "../Services/itemService";
+import CommentService from "../Services/commentService";
 import { FixedMenuLayout } from "../Components/Layout/FixedMenuLayout"
 import { ItemListLayout } from "../Components/Item/ItemList"
 import { CommentListLayout } from "../Components/Comment/CommentList"
@@ -15,13 +16,19 @@ export const ItemHome: React.FC = () => {
     
     const getItemData = async () => {
         const grabData = await ItemService.getAllItems()
-        console.log(grabData)
         const itemData = grabData?.items
         setItemLists(itemData)
     }
+
+    const getCommentData = async () => {
+        const grabCommentData = await CommentService.getAllComments()
+        const commentData = grabCommentData?.comments
+        setCommentLists(commentData)
+    }
     
     useEffect(() => {
-        getItemData()
+        getItemData();
+        getCommentData();
       }, []);
 
     //====== Add Items to itemList Object ======//
@@ -46,10 +53,10 @@ export const ItemHome: React.FC = () => {
     
     //====== Add Comment to commentList ===========//
     const addComment = (comment:Partial<Comment>) => {
-        comment.id = "340978"
-        const items = [...commentLists]
-        items.push(comment as Comment)
-        setCommentLists(items)
+        // comment.id = "340978"
+        const comments = [...commentLists]
+        comments.push(comment as Comment)
+        setCommentLists(comments)
     }
 
     //======= Remove Comment from commentList ======//

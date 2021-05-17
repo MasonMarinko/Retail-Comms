@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Button } from "semantic-ui-react";
 import ItemService from "../../Services/itemService";
 import "./commentList.css";
+import CommentService from "../../Services/commentService";
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -44,23 +45,33 @@ export const CommentListLayout: React.FC<{
       setForm(data)
     }
 
+    const onRemove = (comment:Comment) => {
+      console.log(comment)
+      CommentService.delete(comment.id)
+      .then((postResponse:any) => {
+        removeComment(comment)
+      })
+      .catch((err:any) => {
+        alert("testing")
+      });
+    }
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      const comment:Partial<Comment> = {
+      const commentData:Partial<Comment> = {
         employeeName: form.employeeName,
         message: form.message
       }
 
       
-      ItemService.create(comment)
+      CommentService.create(commentData)
       .then((postResponse:any) => {
-        console.log(postResponse.comments);
-        addComment(postResponse.comments)
+        console.log(postResponse.comment);
+        addComment(postResponse.comment)
       })
       .catch((err:any) => {
-        alert(err.response.data.message)
+        alert(err)
       });
-      addComment(comment)
       // clear form
     }
 
@@ -110,7 +121,7 @@ export const CommentListLayout: React.FC<{
                 </div>
                 <div className = "comment-adjust-buttons">
                 {/* <Button>EDIT</Button> */}
-                <Button onClick={()=>removeComment(comment)}>COMPLETED</Button>
+                <Button onClick={()=>onRemove(comment)}>COMPLETED</Button>
                 </div>
           </div>
           </StyledProductListItem>

@@ -4,7 +4,6 @@ import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
 import ItemService from "../../Services/itemService";
-import getData from "../../Services/itemService";
 import "./itemList.css";
 
 const StyledProductListItem = styled.div`
