@@ -33,7 +33,7 @@ router.post('/', async function (req, res) {
 })
 
 router.delete('/:commentNumber', async function (req, res) {
-  const commentNumber = req.params.commentNumber
+  const commentNumber = req.params.id
 
   Comment.deleteMany({ commentNumber }, function(err) {
     if (err) return console.error(err);

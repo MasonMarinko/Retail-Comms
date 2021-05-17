@@ -11,7 +11,7 @@ const CommentService = {
     },
     delete:(commentNumber) => {
         console.log(commentNumber)
-        return apiService.delete(`/item/${commentNumber}`)
+        return apiService.delete(`/comment/${commentNumber}`)
         .then (result=>result.data)
     }
     
