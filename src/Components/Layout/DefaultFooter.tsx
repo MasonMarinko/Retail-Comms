@@ -1,12 +1,11 @@
 import React from "react"
 import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic-ui-react"
-import logo from '../../logo.svg';
 
 export const DefaultFooter: React.FC = () => {
     return (
         <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
             <Container textAlign='center'>
-                <Grid divided inverted stackable>
+                {/* <Grid divided inverted stackable>
                 <Grid.Column width={3}>
                     <Header inverted as='h4' content='Group 1' />
                     <List link inverted>
@@ -40,10 +39,10 @@ export const DefaultFooter: React.FC = () => {
                     Extra space for a call to action inside the footer that could help re-engage users.
                     </p>
                 </Grid.Column>
-                </Grid>
+                </Grid> */}
 
                 <Divider inverted section />
-                <Image centered size='mini' src={logo} />
+                <Image centered size='mini' />
                 <List horizontal inverted divided link size='small'>
                     <List.Item as='a' href='#'>
                         Site Map

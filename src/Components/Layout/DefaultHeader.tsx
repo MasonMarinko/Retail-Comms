@@ -1,18 +1,17 @@
 import React from "react"
 import { Container, Dropdown, Image, Menu } from "semantic-ui-react"
-import logo from '../../logo.svg';
 
 export const DefaultHeader: React.FC = () => {
     return (
         <Menu fixed='top' inverted>
+            <Image class="costco-logo" size='medium' src="https://i.imgur.com/hbGegUk.png" style={{ marginRight: '1.5em' }} />
             <Container>
                 <Menu.Item as='a' header>
-                    <Image size='mini' src={logo} style={{ marginRight: '1.5em' }} />
-                    Project Name
+                    Costco App
                 </Menu.Item>
-                <Menu.Item as='a'>Home</Menu.Item>
+                {/* <Menu.Item as='a'>Home</Menu.Item> */}
 
-                <Dropdown item simple text='Dropdown'>
+                {/* <Dropdown item simple text='Dropdown'>
                 <Dropdown.Menu>
                     <Dropdown.Item>List Item</Dropdown.Item>
                     <Dropdown.Item>List Item</Dropdown.Item>
@@ -28,7 +27,7 @@ export const DefaultHeader: React.FC = () => {
                     </Dropdown.Item>
                     <Dropdown.Item>List Item</Dropdown.Item>
                 </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
             </Container>
         </Menu>
     )
