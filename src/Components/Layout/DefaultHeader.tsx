@@ -1,14 +1,12 @@
 import React from "react"
 import { Container, Dropdown, Image, Menu } from "semantic-ui-react"
+import "./DefaultHeader.css"
 
 export const DefaultHeader: React.FC = () => {
     return (
         <Menu fixed='top' inverted>
             <Image class="costco-logo" size='medium' src="https://i.imgur.com/hbGegUk.png" style={{ marginRight: '1.5em' }} />
             <Container>
-                <Menu.Item as='a' header>
-                    Costco App
-                </Menu.Item>
                 {/* <Menu.Item as='a'>Home</Menu.Item> */}
 
                 {/* <Dropdown item simple text='Dropdown'>

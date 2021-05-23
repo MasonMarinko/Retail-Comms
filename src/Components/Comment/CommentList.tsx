@@ -3,7 +3,6 @@ import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
-import ItemService from "../../Services/itemService";
 import "./commentList.css";
 import CommentService from "../../Services/commentService";
 
@@ -39,6 +38,10 @@ export const CommentListLayout: React.FC<{
       employeeName:"",
       message: ""
     })
+
+    const [edited, setEdited]=useState({
+      completedBy:false
+    })
     const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>) => {
       const data = {...form}
       data[name] = e.target.value as string
@@ -55,6 +58,11 @@ export const CommentListLayout: React.FC<{
         alert("testing")
       });
     }
+    
+    const onEdit = (comment:Comment) => {
+      const data = {...edited}
+      setEdited(data)
+    }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -62,6 +70,7 @@ export const CommentListLayout: React.FC<{
         employeeName: form.employeeName,
         message: form.message
       }
+      
 
       
       CommentService.create(commentData)
@@ -119,6 +128,18 @@ export const CommentListLayout: React.FC<{
                     {comment.message}
                 </h3>
                 </div>
+                {/* {edited ? (
+                  <>
+                  <input
+              // onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
+              className = "info-input-comments"
+              placeholder="Your Name"
+            ></input>
+            </>
+                ) : {
+
+                }} */}
+          <br></br>
                 <div className = "comment-adjust-buttons">
                 {/* <Button>EDIT</Button> */}
                 <Button onClick={()=>onRemove(comment)}>COMPLETED</Button>
