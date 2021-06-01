@@ -39,9 +39,8 @@ export const CommentListLayout: React.FC<{
       message: ""
     })
 
-    const [edited, setEdited]=useState({
-      completedBy:false
-    })
+    const [edited, setEdited]=useState(false)
+
     const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>) => {
       const data = {...form}
       data[name] = e.target.value as string
@@ -49,7 +48,6 @@ export const CommentListLayout: React.FC<{
     }
 
     const onRemove = (comment:Comment) => {
-      console.log(comment)
       CommentService.delete(comment.id)
       .then((postResponse:any) => {
         removeComment(comment)
@@ -60,8 +58,7 @@ export const CommentListLayout: React.FC<{
     }
     
     const onEdit = (comment:Comment) => {
-      const data = {...edited}
-      setEdited(data)
+      setEdited(true)
     }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -128,21 +125,22 @@ export const CommentListLayout: React.FC<{
                     {comment.message}
                 </h3>
                 </div>
-                {/* {edited ? (
+                {edited ? (
                   <>
                   <input
-              // onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
+              onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
               className = "info-input-comments"
               placeholder="Your Name"
             ></input>
             </>
-                ) : {
-
-                }} */}
+                ) : (
+                  null
+                )
+                }
           <br></br>
                 <div className = "comment-adjust-buttons">
                 {/* <Button>EDIT</Button> */}
-                <Button onClick={()=>onRemove(comment)}>COMPLETED</Button>
+                <Button onClick={()=>onEdit(comment)}>COMPLETED</Button>
                 </div>
           </div>
           </StyledProductListItem>
