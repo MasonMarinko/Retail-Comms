@@ -34,10 +34,6 @@ export const ItemListLayout: React.FC<{
   addItem: (item:Partial<Item>) => void;
   removeItem: (item:Item) => void;
 }> = ({ addItem, removeItem, items }) => {
-
-  const [editing, beingEdited]=useState({
-    edited:false
-  })
   
   const [form, setForm]=useState({
     employeeName:"",

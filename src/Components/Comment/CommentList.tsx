@@ -39,7 +39,10 @@ export const CommentListLayout: React.FC<{
       message: ""
     })
 
-    const [edited, setEdited]=useState(false)
+    const [edited, setEdited]=useState({
+      id:'',
+      editing:false
+    })
 
     const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>) => {
       const data = {...form}
@@ -58,7 +61,13 @@ export const CommentListLayout: React.FC<{
     }
     
     const onEdit = (comment:Comment) => {
-      setEdited(true)
+      console.log(edited)
+      const data = {...comment}
+      
+      setEdited({
+        id:comment.id,
+        editing:true
+      })
     }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
