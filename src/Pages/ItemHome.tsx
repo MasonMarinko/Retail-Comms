@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react"
 import { Grid, Header } from "semantic-ui-react"
 import ItemService from "../Services/itemService";
 import CommentService from "../Services/commentService";
-import { FixedMenuLayout } from "../Components/Layout/FixedMenuLayout"
 import { ItemListLayout } from "../Components/Item/ItemList"
 import { CommentListLayout } from "../Components/Comment/CommentList"
 import { Item } from "../types/Item"
 import { Comment } from "../types/Comment"
-import "./itemHome.css"
 
 
 export const ItemHome: React.FC = () => {
@@ -70,7 +68,6 @@ export const ItemHome: React.FC = () => {
 
 
     return <div className="cart-page">
-        <FixedMenuLayout>
             <h1 className="title-text" >Add Items To List</h1>
             <Grid>
                     <ItemListLayout items={itemLists} removeItem={removeItem}  addItem={addItem} />
@@ -79,6 +76,5 @@ export const ItemHome: React.FC = () => {
             <Grid>
                     <CommentListLayout comments={commentLists} removeComment={removeComment} addComment={addComment} />
             </Grid>
-        </FixedMenuLayout>
     </div>
 }
