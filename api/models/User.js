@@ -12,14 +12,14 @@ const userSchema = new Schema({
         type:  Types.String,
         required: true,
     },
-    email: { 
-        type:  Types.String,
+    password: {
+        type: String,
         required: true,
-        index: true,
-        unique: true,
-        set: function(email) {
-            return email.toLowerCase().trim()
-        }
+        minlength: 5
+    },
+    department: {
+        type: Types.String,
+        required: true
     },
     createdAt: {
         type: Types.Date,
