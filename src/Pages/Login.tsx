@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Header } from "semantic-ui-react";
-import ItemService from "../Services/itemService";
-import CommentService from "../Services/commentService";
-import { ItemListLayout } from "../Components/Item/ItemList";
-import { CommentListLayout } from "../Components/Comment/CommentList";
-import { Item } from "../types/Item";
-import { Comment } from "../types/Comment";
+import axios from "axios";
+import UserService from "../Services/userService";
 
 export const Login: React.FC = () => {
-    const [formState, setFormState] = useState({ email: '', password: '' })
+  const [formState, setFormState] = useState({ email: "", password: "" });
+  const [user, setUser] = useState()
 
+  const getUserData = async () => {
+    const grabData = await UserService.getAllUsers();
+    const userData = grabData?.users;
+    return userData
+    // setUserLists(userData)
+  };
+
+  async function handleSubmit(e:any) {
+    e.preventDefault()
+    const userInfo = await getUserData()
+    console.log(userInfo)
+    // const user = { username, password };
+    console.log("I'm working")
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <div className="container my-1">
@@ -43,7 +57,12 @@ export const Login: React.FC = () => {
           </div>
         ) : null} */}
         <div className="flex-row flex-end">
-          <button type="submit">Submit</button>
+          <button 
+          onClick={(e: any) => handleSubmit(e)} 
+          type="submit"
+          >
+          Submit
+          </button>
         </div>
       </form>
     </div>

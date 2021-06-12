@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Item } from "../../types/Item";
-import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
 import ItemService from "../../Services/itemService";

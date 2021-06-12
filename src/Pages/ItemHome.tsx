@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { Grid, Header } from "semantic-ui-react"
 import ItemService from "../Services/itemService";
 import CommentService from "../Services/commentService";
 import { ItemListLayout } from "../Components/Item/ItemList"
@@ -69,12 +68,12 @@ export const ItemHome: React.FC = () => {
 
     return <div className="cart-page">
             <h1 className="title-text" >Add Items To List</h1>
-            <Grid>
+            <div>
                     <ItemListLayout items={itemLists} removeItem={removeItem}  addItem={addItem} />
-            </Grid>
+            </div>
                 <h1 className="title-text">Add Comments</h1>
-            <Grid>
+            <div>
                     <CommentListLayout comments={commentLists} removeComment={removeComment} addComment={addComment} />
-            </Grid>
+            </div>
     </div>
 }
