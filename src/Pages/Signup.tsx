@@ -14,6 +14,7 @@ export const Signup: React.FC = () => {
   });
   const [submitButton, setActiveButton] = useState(true);
 
+
   const onFieldChange = (
     name: keyof typeof form,
     e: React.ChangeEvent<HTMLInputElement>
@@ -30,6 +31,7 @@ export const Signup: React.FC = () => {
     }
     setForm(data);
   };
+  
 
   // const departmentValue = (e:any) => {
   //   console.log(typeof(e.value))
