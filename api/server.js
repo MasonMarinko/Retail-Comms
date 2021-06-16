@@ -30,7 +30,7 @@ app.use("/api/comment", CommentController);
 // all accepts any HTTP method
 app.all('/api/*', function (req, res) {
     // express handles basic headers and mime-types automatically
-    res.send("<h1>Page Not Permitted</h1>");
+    res.status(404).json({message: "Endpoint not found!"})
 })
 
 app.use(express.static(path.join(__dirname, "..", "build")));

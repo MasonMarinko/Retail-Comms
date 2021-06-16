@@ -134,22 +134,10 @@ export const CommentListLayout: React.FC<{
                     {comment.message}
                 </h3>
                 </div>
-                {edited ? (
-                  <>
-                  <input
-              onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
-              className = "info-input-comments"
-              placeholder="Your Name"
-            ></input>
-            </>
-                ) : (
-                  null
-                )
-                }
           <br></br>
                 <div className = "comment-adjust-buttons">
                 {/* <Button>EDIT</Button> */}
-                <Button onClick={()=>onEdit(comment)}>COMPLETED</Button>
+                <Button onClick={()=>onRemove(comment)}>COMPLETED</Button>
                 </div>
           </div>
           </StyledProductListItem>

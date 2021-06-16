@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserService from "../Services/userService";
-
+import useUserStore from "../Stores/userStore";
 
 export const Login: React.FC = () => {
   const [formState, setFormState] = useState({ username: "", password: "" });
-  // const [login, { error }] = useState()
+  const userStore = useUserStore()
+  
+  useEffect(() => {
+    console.log("token is " + userStore.token)
+    console.log("payload is " , userStore.payload)
+  },[userStore.token])
 
-  // const getUserData = async () => {
-  //   const grabData = await UserService.getAllUsers();
-  //   const userData = grabData?.users;
-  //   return userData
-  //   // setUserLists(userData)
-  // };
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      userStore.setToken(token)
+    }
+  }, [])
 
  const handleFormSubmit = (e:React.FormEvent<HTMLFormElement>) => {
    e.preventDefault()
@@ -20,6 +25,16 @@ export const Login: React.FC = () => {
      username: formState.username,
      password: formState.password
    }
+
+   UserService.login(loginData)
+   .then((postResponse: any) => {
+     e.preventDefault();
+     userStore.setToken(postResponse.token)
+     localStorage.setItem("token",postResponse.token)
+   })
+   .catch((err: any) => {
+     alert(err.response.data.message);
+   });
    console.log(loginData)
  }
 
@@ -31,10 +46,6 @@ export const Login: React.FC = () => {
     data[name] = e.target.value
     setFormState(data)
   }
-
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
 
   return (
     <div className="container my-1">

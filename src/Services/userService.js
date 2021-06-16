@@ -9,6 +9,10 @@ const UserService = {
         return apiService.get('/user', data)
         .then (result => result.data)
     },
+    login:(data) => {
+        return apiService.post('/user/login', data)
+        .then(result=>result.data)
+    }
     // delete:(itemNumber) => {
     //     console.log(itemNumber)
     //     return apiService.delete(`/item/${itemNumber}`)

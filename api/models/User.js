@@ -30,6 +30,10 @@ const userSchema = new Schema({
         default: Date.now,
     }
 });
-
+userSchema.methods={
+    verifyPassword(password) {
+        return this.password == password
+    }
+}
 const User = mongoose.model('user', userSchema);
 module.exports = User

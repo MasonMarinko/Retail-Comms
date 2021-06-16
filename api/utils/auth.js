@@ -1,19 +1,14 @@
-import decode from 'jwt-decode';
+const jwt =require("jsonwebtoken")
 
 class AuthService {
-  getProfile() {
-    return decode(this.getToken());
-  }
 
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
-    const token = this.getToken();
-    return !!token && !this.isTokenExpired(token);
+  constructor() {
+    this.secret = "asdlfkjhsdlkfjhasdkfjhaslriku"
   }
 
   isTokenExpired(token) {
     try {
-      const decoded = decode(token);
+      const decoded = this.decodeToken(token);
       if (decoded.exp < Date.now() / 1000) {
         return true;
       } else return false;
@@ -22,24 +17,20 @@ class AuthService {
     }
   }
 
-  getToken() {
-    // Retrieves the user token from localStorage
-    return localStorage.getItem('id_token');
+  decodeToken(token) {
+    const decoded = jwt.verify(token, this.secret);
+    return decoded
   }
 
-  login(idToken) {
-    // Saves user token to localStorage
-    localStorage.setItem('id_token', idToken);
-
-    window.location.assign('/');
-  }
-
-  logout() {
-    // Clear user token and profile data from localStorage
-    localStorage.removeItem('id_token');
-    // this will reload the page and reset the state of the application
-    window.location.assign('/');
+  createUserToken(userDocument) {
+    const payload = {
+      id: userDocument.id,
+      firstName: userDocument.firstName,
+      department: userDocument.department,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+    }
+    return jwt.sign(payload, this.secret)
   }
 }
 
-export default new AuthService();
+module.exports = new AuthService();
