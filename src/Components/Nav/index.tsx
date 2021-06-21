@@ -1,42 +1,82 @@
-import React from "react";
-// import Auth from "../../utils/auth";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Auth from "../../utils/authLogs"
+import useUserStore from "../../Stores/userStore";
+import jwt from "jsonwebtoken"
+
 
 function Nav() {
+  const userStore = useUserStore()
+  const [currentToken, setCurrentToken] = useState("")
 
+  const setToken = () => {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      return
+    } {
+      setCurrentToken(token)
+    }
+    }
+  
+  const getUser = () => {
+    const token = currentToken
+    const userTokenInfo = jwt.decode(token)
+    if (!userTokenInfo) {
+      return
+    } {
+      return getFirstName(userTokenInfo)
+    }
+  }
+
+  const logout = () =>  {
+    // Clear user token and profile data from localStorage
+    localStorage.removeItem('token');
+    // this will reload the page and reset the state of the application
+    window.location.assign('/');
+  }
+  
+  const getFirstName = (userInfo:any) => {
+    const firstName = userInfo.firstName
+    return firstName
+  }
+
+  const loggedIn = () => {
+    const token = localStorage.getItem("token")
+    return !!token
+  }
+
+  // console.log(userName)
+
+  useEffect(() => {
+    setToken()
+  },[userStore.token])
+  
   function showNavigation() {
-    // if (Auth.loggedIn()) {
-    //   return (
-    //     <ul className="flex-row">
-    //       <li className="mx-1">
-    //         {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-    //         <a href="/" onClick={() => Auth.logout()}>
-    //           Logout
-    //         </a>
-    //       </li>
-    //       <li className="mx-1">
-    //         <a href="/profile">
-    //           Profile
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   );
-    // } else {
+    if (loggedIn()) {
       return (
         <ul className="flex-row">
+        <li>Welcome {getUser()} </li>
+          <li className="mx-1">
+            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
+            <a href="/" onClick={() => logout()}>
+              Logout
+            </a>
+          </li>
+        </ul>
+      );
+    } else {
+      return (
+        <ul className="flex-row">
+          <li>Welcome {getUser()} </li>
           <li className="mx-1">
             <Link to="/Signup">Signup</Link>
           </li>
           <li className="mx-1">
             <Link to="/Login">Login</Link>
           </li>
-          {/* <li className="mx-1">
-            <Link to="/admin">
-            Admin
-            </Link>
-          </li> */}
         </ul>
       );
+  }
   }
 
   return (

@@ -11,6 +11,7 @@ export const ItemHome: React.FC = () => {
     const [itemLists, setItemLists] = useState<Item[]>([])
     const [commentLists, setCommentLists]= useState<Comment[]>([])
     
+
     const getItemData = async () => {
         const grabData = await ItemService.getAllItems()
         const itemData = grabData?.items

@@ -31,15 +31,12 @@ export const Login: React.FC = () => {
      e.preventDefault();
      userStore.setToken(postResponse.token)
      localStorage.setItem("token",postResponse.token)
+     window.location.assign('/');
    })
    .catch((err: any) => {
      alert(err.response.data.message);
    });
-   console.log(loginData)
  }
-
-
-
  
   const handleChange = (name:keyof typeof formState, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...formState};
