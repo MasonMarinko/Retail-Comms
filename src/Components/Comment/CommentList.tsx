@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Item } from "../../types/Item";
 import { Comment } from "../../types/Comment"
 import styled from "styled-components";
 import { Button } from "semantic-ui-react";
 import "./commentList.css";
 import CommentService from "../../Services/commentService";
+import useUserStore from "../../Stores/userStore";
+import jwt from "jsonwebtoken"
+
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -38,11 +41,35 @@ export const CommentListLayout: React.FC<{
       employeeName:"",
       message: ""
     })
+    const [userInfo, setUserInfo] = useState({
+      firstName:"",
+      department:""
+    })
 
     const [edited, setEdited]=useState({
       id:'',
       editing:false
     })
+
+    const userStore = useUserStore()
+
+    const testing = () => {
+      const token = localStorage.getItem("token")
+
+      if (!token) {
+        return
+      } {
+        const userTokenInfo = jwt.decode(token)
+        setUserInfoState(userTokenInfo)
+      }
+    }
+
+    const setUserInfoState = (userInformation:any) => {
+      setUserInfo({
+        firstName: userInformation.firstName,
+        department:userInformation.department
+      })
+    }
 
     const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLTextAreaElement>) => {
       const data = {...form}
@@ -73,7 +100,7 @@ export const CommentListLayout: React.FC<{
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       const commentData:Partial<Comment> = {
-        employeeName: form.employeeName,
+        employeeName: userInfo.firstName,
         message: form.message
       }
       
@@ -90,16 +117,17 @@ export const CommentListLayout: React.FC<{
       // clear form
     }
 
+    useEffect(() => {
+      testing()
+    },[userStore.token])
+    
     return (
       <div className="form-comment-container">
         <div className="form-div-comments">
           <form onSubmit={(e:React.FormEvent<HTMLFormElement>)=>onSubmit(e)} className = "form-comments-format" >
-          <input
-            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
-            className = "info-input-comments"
-            placeholder="Your Name"
-            value={form.employeeName}
-          ></input>
+          <a>
+            {userInfo.firstName}
+          </a>
           <br></br>
           <textarea 
             onChange={(e:React.ChangeEvent<HTMLTextAreaElement>)=>onFieldChange("message", e)}

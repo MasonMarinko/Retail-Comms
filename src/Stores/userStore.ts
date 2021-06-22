@@ -9,7 +9,7 @@ interface UserState {
     department: string
     exp:number
   } | null, 
-  setToken:(token:string) => void
+  setToken:(token:string) => void,
 }
 
 const useUserStore = create<UserState>(set => ({

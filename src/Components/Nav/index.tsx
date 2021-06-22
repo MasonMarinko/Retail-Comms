@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Auth from "../../utils/authLogs"
 import useUserStore from "../../Stores/userStore";
 import jwt from "jsonwebtoken"
 
@@ -17,7 +16,7 @@ function Nav() {
       setCurrentToken(token)
     }
     }
-  
+
   const getUser = () => {
     const token = currentToken
     const userTokenInfo = jwt.decode(token)
@@ -49,7 +48,7 @@ function Nav() {
 
   useEffect(() => {
     setToken()
-  },[userStore.token])
+  },[])
   
   function showNavigation() {
     if (loggedIn()) {
