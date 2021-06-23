@@ -6,6 +6,7 @@ interface UserState {
   payload: {
     id: string
     firstName: string
+    lastName: string
     department: string
     exp:number
   } | null, 

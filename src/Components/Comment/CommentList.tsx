@@ -43,13 +43,14 @@ export const CommentListLayout: React.FC<{
     })
     const [userInfo, setUserInfo] = useState({
       firstName:"",
+      lastName:"",
       department:""
     })
 
-    const [edited, setEdited]=useState({
-      id:'',
-      editing:false
-    })
+    // const [edited, setEdited]=useState({
+    //   id:'',
+    //   editing:false
+    // })
 
     const userStore = useUserStore()
 
@@ -67,6 +68,7 @@ export const CommentListLayout: React.FC<{
     const setUserInfoState = (userInformation:any) => {
       setUserInfo({
         firstName: userInformation.firstName,
+        lastName: userInformation.lastName,
         department:userInformation.department
       })
     }
@@ -87,23 +89,24 @@ export const CommentListLayout: React.FC<{
       });
     }
     
-    const onEdit = (comment:Comment) => {
-      console.log(edited)
-      const data = {...comment}
+    // const onEdit = (comment:Comment) => {
+    //   console.log(edited)
+    //   const data = {...comment}
       
-      setEdited({
-        id:comment.id,
-        editing:true
-      })
-    }
+    //   setEdited({
+    //     id:comment.id,
+    //     editing:true
+    //   })
+    // }
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      const lastName = userInfo.lastName
+      const lastInitial = lastName.charAt(0)
       e.preventDefault()
       const commentData:Partial<Comment> = {
-        employeeName: userInfo.firstName,
+        employeeName: userInfo.firstName + " " + lastInitial,
         message: form.message
       }
-      
 
       
       CommentService.create(commentData)

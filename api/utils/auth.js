@@ -26,6 +26,7 @@ class AuthService {
     const payload = {
       id: userDocument.id,
       firstName: userDocument.firstName,
+      lastName: userDocument.lastName,
       department: userDocument.department,
       exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
     }
