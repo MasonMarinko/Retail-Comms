@@ -4,6 +4,10 @@ const Types = Schema.Types
 
 const commentSchema = new Schema({
     // author: { type: 'ObjectId', ref: 'Person' }
+    commentType: {
+        type: Types.String,
+        required: true
+    },
     employeeName: { 
         type:  Types.String,
         required: true,

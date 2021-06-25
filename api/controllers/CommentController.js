@@ -17,7 +17,7 @@ router.get('/:id', function (req, res) {
 router.post('/', async function (req, res) {
   // validation here
   const data = {
-      ...pick(req.body, ["employeeName", "message"])
+      ...pick(req.body, ["commentType", "employeeName", "message"])
   }
 
   const comment = new Comment
