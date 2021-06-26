@@ -46,35 +46,45 @@ export const CommentListLayout: React.FC<{
     lastName: "",
     department: "",
   });
-  const [isTask, setIsTask] = useState(false)
-
-  // const [edited, setEdited]=useState({
-  //   id:'',
-  //   editing:false
-  // })
 
   const userStore = useUserStore();
 
-  // const testing = () => {
-  //   const token = localStorage.getItem("token");
-  //   console.log(form);
+    const loggedInfo = () => {
+    const token = localStorage.getItem("token");
+    console.log(form);
 
-  //   if (!token) {
-  //     return;
-  //   }
-  //   {
-  //     const userTokenInfo = jwt.decode(token);
-  //     setUserInfoState(userTokenInfo);
-  //   }
-  // };
+    if (!token) {
+      return;
+    }
+    {
+      const userTokenInfo = jwt.decode(token);
+      setUserInfoState(userTokenInfo);
+    }
+  };
 
-  // const setUserInfoState = (userInformation: any) => {
-  //   setUserInfo({
-  //     firstName: userInformation.firstName,
-  //     lastName: userInformation.lastName,
-  //     department: userInformation.department,
-  //   });
-  // };
+  const setUserInfoState = (userInformation: any) => {
+    setUserInfo({
+      firstName: userInformation.firstName,
+      lastName: userInformation.lastName,
+      department: userInformation.department,
+    });
+  };
+
+
+  const loggedIn = () => {
+    const token = localStorage.getItem("token")
+    return !!token
+  }
+
+  const clearForm = () => {
+    const formReset = {
+      type: "task",
+      employeeName: "",
+      message:""
+    }
+    setForm(formReset)
+  }
+
 
   const onFieldChange = (
     name: keyof typeof form,
@@ -84,7 +94,6 @@ export const CommentListLayout: React.FC<{
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const data = { ...form };
-    console.log(data);
     data[name] = e.target.value as string;
     setForm(data);
   };
@@ -99,39 +108,35 @@ export const CommentListLayout: React.FC<{
       });
   };
 
-  const commentType = () => {
-    const commentType = form.type;
-    if (commentType === "task") {
-      setIsTask(true)
-    }{
-      setIsTask(false)
-    }
-  };
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const lastName = userInfo.lastName;
     const lastInitial = lastName.charAt(0);
     e.preventDefault();
-    const commentData: Partial<Comment> = {
-      commentType: form.type,
-      employeeName: userInfo.firstName + " " + lastInitial,
-      message: form.message,
-    };
-    
-    CommentService.create(commentData)
-    .then((postResponse: any) => {
-        console.log(postResponse.comment);
-        addComment(postResponse.comment);
-      })
-      .catch((err: any) => {
-        alert(err);
-      });
-    // clear form
+    if (!loggedIn()){
+      alert("You must be logged in to perform this action!")
+      return 
+    } {
+      const commentData: Partial<Comment> = {
+        commentType: form.type,
+        employeeName: userInfo.firstName + " " + lastInitial,
+        message: form.message,
+      };
+  
+      CommentService.create(commentData)
+        .then((postResponse: any) => {
+          console.log(postResponse.comment);
+          addComment(postResponse.comment);
+        })
+        .catch((err: any) => {
+          alert(err);
+        });
+    }
+    clearForm()
   };
 
-  // useEffect(() => {
-  //   testing();
-  // }, []);
+  useEffect(() => {
+    loggedInfo();
+  }, []);
 
   return (
     <div className="form-comment-container">
@@ -147,7 +152,7 @@ export const CommentListLayout: React.FC<{
             name="selectList"
             id="selectList"
           >
-              <option value="task">Task</option> {" "}
+              <option value="task">Task</option>
             <option value="memo">Memo</option>
           </select>
           <br></br>
@@ -167,6 +172,7 @@ export const CommentListLayout: React.FC<{
         </form>
       </div>
       {comments.map((comment) => {
+        const isTask = comment.commentType === "task"
         return (
           <StyledProductListItem
             className="product-list-item-comment"
@@ -187,10 +193,10 @@ export const CommentListLayout: React.FC<{
               </div>
               <br></br>
               <div className="comment-adjust-buttons">
-                {!isTask ? (
-                  <Button onClick={() => onRemove(comment)}>READ</Button>
-                  ) : (
+                {isTask ? (
                   <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
+                  ) : (
+                  <Button onClick={() => onRemove(comment)}>READ</Button>
                 )}
               </div>
             </div>

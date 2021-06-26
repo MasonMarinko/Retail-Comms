@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Button } from "semantic-ui-react";
 import ItemService from "../../Services/itemService";
 import "./itemList.css";
+import jwt from "jsonwebtoken";
+
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -42,9 +44,46 @@ export const ItemListLayout: React.FC<{
     itemQuantity:"" 
   })
 
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    department: ""
+  })
+
+  const loggedInfo = () => {
+    const token = localStorage.getItem("token");
+    console.log(form);
+
+    if (!token) {
+      return;
+    }
+    {
+      const userTokenInfo = jwt.decode(token);
+      setUserInfoState(userTokenInfo);
+    }
+  };
+
+  const setUserInfoState = (userInformation: any) => {
+    setUserInfo({
+      firstName: userInformation.firstName,
+      lastName: userInformation.lastName,
+      department: userInformation.department,
+    });
+  };
+
+  const clearForm = () => {
+    const formReset = {
+      employeeName:"",
+      itemNumber:"",
+      itemName:"",
+      itemPrice:"",
+      itemQuantity:"" 
+    }
+    setForm(formReset)
+  }
+
   const onFieldChange = (name:keyof typeof form, e:React.ChangeEvent<HTMLInputElement>) => {
     const data = {...form}
-    // console.log(data)
     data[name] = e.target.value as string
     setForm(data)
   }
@@ -62,43 +101,51 @@ export const ItemListLayout: React.FC<{
     // clear form
   }
 
-
+  const loggedIn = () => {
+    const token = localStorage.getItem("token")
+    return !!token
+  }
 
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const lastName = userInfo.lastName;
+    const lastInitial = lastName.charAt(0);
     e.preventDefault()
-    const itemData:Partial<Item> = {
-      employeeName: form.employeeName,
-      itemNumber: parseInt(form.itemNumber),
-      itemName: form.itemName,
-      itemPrice: parseFloat(form.itemPrice),
-      itemQuantity: parseInt(form.itemQuantity)
+
+    if (!loggedIn()) {
+      alert("You must be logged in to perform this action!")
+      return
+    } {
+      const itemData:Partial<Item> = {
+        employeeName: userInfo.firstName + " " + lastInitial,
+        itemNumber: parseInt(form.itemNumber),
+        itemName: form.itemName,
+        itemPrice: parseFloat(form.itemPrice),
+        itemQuantity: parseInt(form.itemQuantity)
+      }
+  
+      
+      ItemService.create(itemData)
+      .then((postResponse:any) => {
+        console.log(postResponse.item);
+        addItem(postResponse.item)
+      })
+      .catch((err:any) => {
+        alert(err.response.data.message)
+      });
     }
-
-    
-    ItemService.create(itemData)
-    .then((postResponse:any) => {
-      console.log(postResponse.item);
-      addItem(postResponse.item)
-    })
-    .catch((err:any) => {
-      alert(err.response.data.message)
-    });
-
-    // clear form
+    clearForm()
   }
+
+
+  useEffect(() => {
+    loggedInfo();
+  }, []);
 
   return (
     <div className="container">
       <div className="actions-div">
         <form onSubmit={(e:React.FormEvent<HTMLFormElement>)=>onSubmit(e)} className="form-format">
-        <input
-            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("employeeName", e)}
-            className = "info-input"
-            placeholder="Your Name"
-            value={form.employeeName}
-          ></input>
-          <br></br>
           <input
             onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onFieldChange("itemNumber", e)}
             className = "info-input"
