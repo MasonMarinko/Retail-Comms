@@ -39,7 +39,7 @@ export const CommentListLayout: React.FC<{
   const [form, setForm] = useState({
     type: "task",
     employeeName: "",
-    message: "",
+    message: ""
   });
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -47,9 +47,11 @@ export const CommentListLayout: React.FC<{
     department: "",
   });
 
+  const [readByNames, setReadByNames] = useState([""]);
+
   const userStore = useUserStore();
 
-    const loggedInfo = () => {
+  const loggedInfo = () => {
     const token = localStorage.getItem("token");
     console.log(form);
 
@@ -70,21 +72,20 @@ export const CommentListLayout: React.FC<{
     });
   };
 
-
   const loggedIn = () => {
-    const token = localStorage.getItem("token")
-    return !!token
-  }
+    const token = localStorage.getItem("token");
+    return !!token;
+  };
 
   const clearForm = () => {
     const formReset = {
       type: "task",
       employeeName: "",
-      message:""
-    }
-    setForm(formReset)
-  }
-
+      message: "",
+      readBy: ""
+    };
+    setForm(formReset);
+  };
 
   const onFieldChange = (
     name: keyof typeof form,
@@ -97,6 +98,29 @@ export const CommentListLayout: React.FC<{
     data[name] = e.target.value as string;
     setForm(data);
   };
+
+  const onRead = (e: React.ChangeEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const fullName = userInfo.firstName + " " +  userInfo.lastName
+    const comments = [...readByNames]
+    setReadByNames([fullName])
+    console.log(comments)
+    // setReadByNames([comments])
+    // {
+    //   const commentData: Partial<Comment> = {
+    //     readBy: readByNames
+    //   };
+
+    //   CommentService.create(commentData)
+    //     .then((postResponse: any) => {
+    //       console.log(postResponse.comment);
+    //       addComment(postResponse.comment);
+    //     })
+    //     .catch((err: any) => {
+    //       alert(err);
+    //     });
+    // }
+  }
 
   const onRemove = (comment: Comment) => {
     CommentService.delete(comment.id)
@@ -112,16 +136,17 @@ export const CommentListLayout: React.FC<{
     const lastName = userInfo.lastName;
     const lastInitial = lastName.charAt(0);
     e.preventDefault();
-    if (!loggedIn()){
-      alert("You must be logged in to perform this action!")
-      return 
-    } {
+    if (!loggedIn()) {
+      alert("You must be logged in to perform this action!");
+      return;
+    }
+    {
       const commentData: Partial<Comment> = {
         commentType: form.type,
         employeeName: userInfo.firstName + " " + lastInitial,
-        message: form.message,
+        message: form.message
       };
-  
+
       CommentService.create(commentData)
         .then((postResponse: any) => {
           console.log(postResponse.comment);
@@ -131,7 +156,7 @@ export const CommentListLayout: React.FC<{
           alert(err);
         });
     }
-    clearForm()
+    clearForm();
   };
 
   useEffect(() => {
@@ -172,7 +197,7 @@ export const CommentListLayout: React.FC<{
         </form>
       </div>
       {comments.map((comment) => {
-        const isTask = comment.commentType === "task"
+        const isTask = comment.commentType === "task";
         return (
           <StyledProductListItem
             className="product-list-item-comment"
@@ -192,14 +217,28 @@ export const CommentListLayout: React.FC<{
                 </h3>
               </div>
               <br></br>
-              <div className="comment-adjust-buttons">
                 {isTask ? (
+                  <>
+                  <div className="comment-adjust-buttons">
                   <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
-                  ) : (
-                  <Button onClick={() => onRemove(comment)}>READ</Button>
+                  </div>
+                  </>
+                ) : (
+                  <>
+                  <div className="read-button-flex">
+                    <div className="read-by-align">
+                      <h1 className="read-by-text">Read By: {readByNames} </h1>
+                    </div>
+                    <br></br>
+                    <div className= "read-button">
+                  <div className="comment-adjust-buttons">
+                    <Button onClick={(e: any) => onRead(e)}>READ</Button>
+                    </div>
+                    </div>
+                    </div>
+                  </>
                 )}
               </div>
-            </div>
           </StyledProductListItem>
         );
       })}

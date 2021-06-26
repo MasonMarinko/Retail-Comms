@@ -16,6 +16,10 @@ const commentSchema = new Schema({
         type:  Types.String,
         required: true,
     },
+    readBy: {
+        type: Types.Array,
+        required: false
+    },
     createdAt: {
         type: Types.Date,
         default: Date.now,
