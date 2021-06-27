@@ -3,5 +3,5 @@ export interface Comment {
     commentType: string
     employeeName: string
     message: string
-    readBy: [""]
+    readBy: []
 }

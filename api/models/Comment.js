@@ -17,8 +17,10 @@ const commentSchema = new Schema({
         required: true,
     },
     readBy: {
-        type: Types.Array,
-        required: false
+        type: [Types.ObjectId],
+        ref: 'User',
+        required: false,
+        default: []
     },
     createdAt: {
         type: Types.Date,

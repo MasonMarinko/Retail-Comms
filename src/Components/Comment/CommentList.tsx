@@ -99,16 +99,13 @@ export const CommentListLayout: React.FC<{
     setForm(data);
   };
 
-  const onRead = (e: React.ChangeEvent<HTMLButtonElement>) => {
+  const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
     e.preventDefault()
+    console.log(comment)
     const fullName = userInfo.firstName + " " +  userInfo.lastName
-    const comments = [...readByNames]
     setReadByNames([fullName])
-    console.log(comments)
-    // setReadByNames([comments])
     // {
     //   const commentData: Partial<Comment> = {
-    //     readBy: readByNames
     //   };
 
     //   CommentService.create(commentData)
@@ -232,7 +229,7 @@ export const CommentListLayout: React.FC<{
                     <br></br>
                     <div className= "read-button">
                   <div className="comment-adjust-buttons">
-                    <Button onClick={(e: any) => onRead(e)}>READ</Button>
+                    <Button onClick={(e: any) => onRead(e, comment)}>READ</Button>
                     </div>
                     </div>
                     </div>
