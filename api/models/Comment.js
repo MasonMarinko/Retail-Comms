@@ -8,25 +8,31 @@ const commentSchema = new Schema({
         type: Types.String,
         required: true
     },
-    employeeName: { 
+    employeeName: {
         type:  Types.String,
         required: true,
     },
-    message: { 
+    message: {
         type:  Types.String,
         required: true,
     },
-    readBy: {
-        type: [Types.ObjectId],
-        ref: 'User',
-        required: false,
+    readBy: [{
+        type: Types.ObjectId,
+        ref: 'user',
         default: []
-    },
+    }],
     createdAt: {
         type: Types.Date,
         default: Date.now,
     }
 });
+
+commentSchema.virtual('users', {
+    ref: 'user',
+    localField: 'readBy',
+    foreignField: '_id',
+    justOne: false
+  });
 
 commentSchema.set('toJSON', { 
     getters: true, 

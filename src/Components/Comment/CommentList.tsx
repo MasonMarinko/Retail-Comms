@@ -7,6 +7,8 @@ import "./commentList.css";
 import CommentService from "../../Services/commentService";
 import useUserStore from "../../Stores/userStore";
 import jwt from "jsonwebtoken";
+import { User } from '../../types/User'
+
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -35,42 +37,38 @@ export const CommentListLayout: React.FC<{
   comments: Comment[];
   addComment: (comment: Partial<Comment>) => void;
   removeComment: (comment: Comment) => void;
-}> = ({ comments, addComment, removeComment }) => {
+  addUserToComment: (commentID: string, userData: Partial<User>) => void;
+}> = ({ comments, addComment, removeComment, addUserToComment }) => {
   const [form, setForm] = useState({
     type: "task",
     employeeName: "",
     message: ""
-  });
-  const [userInfo, setUserInfo] = useState({
-    firstName: "",
-    lastName: "",
-    department: "",
   });
 
   const [readByNames, setReadByNames] = useState([""]);
 
   const userStore = useUserStore();
 
-  const loggedInfo = () => {
-    const token = localStorage.getItem("token");
-    console.log(form);
+  // const loggedInfo = () => {
+  //   const token = localStorage.getItem("token");
+  //   console.log(form);
 
-    if (!token) {
-      return;
-    }
-    {
-      const userTokenInfo = jwt.decode(token);
-      setUserInfoState(userTokenInfo);
-    }
-  };
+  //   if (!token) {
+  //     return;
+  //   }
+  //   {
+  //     const userTokenInfo = jwt.decode(token);
+  //     setUserInfoState(userTokenInfo);
+  //   }
+  // };
 
-  const setUserInfoState = (userInformation: any) => {
-    setUserInfo({
-      firstName: userInformation.firstName,
-      lastName: userInformation.lastName,
-      department: userInformation.department,
-    });
-  };
+  // const setUserInfoState = (userInformation: any) => {
+  //   setUserInfo({
+  //     firstName: userInformation.firstName,
+  //     lastName: userInformation.lastName,
+  //     department: userInformation.department,
+  //   });
+  // };
 
   const loggedIn = () => {
     const token = localStorage.getItem("token");
@@ -101,22 +99,25 @@ export const CommentListLayout: React.FC<{
 
   const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
     e.preventDefault()
-    console.log(comment)
-    const fullName = userInfo.firstName + " " +  userInfo.lastName
-    setReadByNames([fullName])
-    // {
-    //   const commentData: Partial<Comment> = {
-    //   };
+    console.log(userStore.payload)
 
-    //   CommentService.create(commentData)
-    //     .then((postResponse: any) => {
-    //       console.log(postResponse.comment);
-    //       addComment(postResponse.comment);
-    //     })
-    //     .catch((err: any) => {
-    //       alert(err);
-    //     });
-    // }
+    {
+      const commentData: Partial<Comment> = {
+      };
+
+      CommentService.markCommentRead(comment.id, userStore.token)
+        .then((postResponse: any) => {
+          addUserToComment(comment.id, {
+            id: userStore.payload?.id,
+            firstName: userStore.payload?.firstName,
+            lastName: userStore.payload?.lastName
+          })
+          console.log(postResponse.comment);
+        })
+        .catch((err: any) => {
+          alert(err);
+        });
+    }
   }
 
   const onRemove = (comment: Comment) => {
@@ -130,17 +131,17 @@ export const CommentListLayout: React.FC<{
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const lastName = userInfo.lastName;
-    const lastInitial = lastName.charAt(0);
-    e.preventDefault();
-    if (!loggedIn()) {
+    if (!userStore.payload) {
       alert("You must be logged in to perform this action!");
       return;
     }
+    const lastName = userStore.payload.lastName;
+    const lastInitial = lastName.charAt(0);
+    e.preventDefault();
     {
       const commentData: Partial<Comment> = {
         commentType: form.type,
-        employeeName: userInfo.firstName + " " + lastInitial,
+        employeeName: userStore.payload.firstName + " " + lastInitial,
         message: form.message
       };
 
@@ -156,9 +157,16 @@ export const CommentListLayout: React.FC<{
     clearForm();
   };
 
+  // useEffect(() => {
+  //   loggedInfo();
+  // }, []);
+
   useEffect(() => {
-    loggedInfo();
-  }, []);
+    const token = localStorage.getItem("token")
+    if (token) {
+      userStore.setToken(token)
+    }
+  }, [])
 
   return (
     <div className="form-comment-container">
@@ -224,7 +232,10 @@ export const CommentListLayout: React.FC<{
                   <>
                   <div className="read-button-flex">
                     <div className="read-by-align">
-                      <h1 className="read-by-text">Read By: {readByNames} </h1>
+                      <h1 className="read-by-text">Read By: {comment.users.map((user) => {
+                        return user.firstName + " " + user.lastName
+                      }).join(", ")} 
+                      </h1>
                     </div>
                     <br></br>
                     <div className= "read-button">

@@ -5,6 +5,7 @@ import { ItemListLayout } from "../Components/Item/ItemList"
 import { CommentListLayout } from "../Components/Comment/CommentList"
 import { Item } from "../types/Item"
 import { Comment } from "../types/Comment"
+import { User } from '../types/User'
 
 
 export const ItemHome: React.FC = () => {
@@ -22,6 +23,15 @@ export const ItemHome: React.FC = () => {
         const grabCommentData = await CommentService.getAllComments()
         const commentData = grabCommentData?.comments
         setCommentLists(commentData)
+    }
+
+    const addUserToComment = (commentID: string, userData: Partial<User>) => {
+        const commentIndex = commentLists.findIndex((comment) => {
+            return commentID == comment.id  
+        })
+        const comments = [...commentLists]
+        comments[commentIndex].users.push(userData)
+        setCommentLists(comments)
     }
     
     useEffect(() => {
@@ -70,7 +80,7 @@ export const ItemHome: React.FC = () => {
             </div>
                 <h1 className="title-text">Add Comments</h1>
             <div>
-                    <CommentListLayout comments={commentLists} removeComment={removeComment} addComment={addComment} />
+                    <CommentListLayout comments={commentLists} addUserToComment={addUserToComment} removeComment={removeComment} addComment={addComment} />
             </div>
     </div>
 }

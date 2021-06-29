@@ -13,6 +13,12 @@ const CommentService = {
         console.log(commentNumber)
         return apiService.delete(`/comment/${commentNumber}`)
         .then (result=>result.data)
+    },
+    markCommentRead:(commentID, token) => {
+        return apiService.post(`/comment/read/${commentID}`, {}, {
+            headers: {Authorization: token}
+        })
+        .then ()
     }
     
 }
