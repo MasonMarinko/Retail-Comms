@@ -8,6 +8,7 @@ import CommentService from "../../Services/commentService";
 import useUserStore from "../../Stores/userStore";
 import jwt from "jsonwebtoken";
 import { User } from '../../types/User'
+import { userInfo } from "node:os";
 
 
 const StyledProductListItem = styled.div`
@@ -48,42 +49,44 @@ export const CommentListLayout: React.FC<{
   const [readByNames, setReadByNames] = useState([""]);
 
   const userStore = useUserStore();
-
+  
   // const loggedInfo = () => {
-  //   const token = localStorage.getItem("token");
-  //   console.log(form);
-
-  //   if (!token) {
-  //     return;
-  //   }
-  //   {
-  //     const userTokenInfo = jwt.decode(token);
-  //     setUserInfoState(userTokenInfo);
-  //   }
-  // };
-
-  // const setUserInfoState = (userInformation: any) => {
-  //   setUserInfo({
-  //     firstName: userInformation.firstName,
-  //     lastName: userInformation.lastName,
-  //     department: userInformation.department,
-  //   });
-  // };
-
-  const loggedIn = () => {
-    const token = localStorage.getItem("token");
-    return !!token;
-  };
-
-  const clearForm = () => {
+    //   const token = localStorage.getItem("token");
+    //   console.log(form);
+    
+    //   if (!token) {
+      //     return;
+      //   }
+      //   {
+        //     const userTokenInfo = jwt.decode(token);
+        //     setUserInfoState(userTokenInfo);
+        //   }
+        // };
+        
+        // const setUserInfoState = (userInformation: any) => {
+          //   setUserInfo({
+            //     firstName: userInformation.firstName,
+            //     lastName: userInformation.lastName,
+            //     department: userInformation.department,
+            //   });
+            // };
+            
+            // const loggedIn = () => {
+              //   const token = localStorage.getItem("token");
+              //   return !!token;
+              // };
+              
+  const clearForm = (commentType:any) => {
     const formReset = {
-      type: "task",
+      type: commentType,
       employeeName: "",
       message: "",
       readBy: ""
     };
     setForm(formReset);
   };
+
+  console.log("working")
 
   const onFieldChange = (
     name: keyof typeof form,
@@ -100,24 +103,24 @@ export const CommentListLayout: React.FC<{
   const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
     e.preventDefault()
     console.log(userStore.payload)
-
-    {
-      const commentData: Partial<Comment> = {
-      };
-
-      CommentService.markCommentRead(comment.id, userStore.token)
+    // const commentData: Partial<Comment> = {
+    //   commentType: form.type,
+    //   employeeName: userStore.payload.firstName + " " + lastInitial,
+    //   message: form.message
+    // };
+  
+        CommentService.markCommentRead(comment.id, userStore.token)
         .then((postResponse: any) => {
-          addUserToComment(comment.id, {
-            id: userStore.payload?.id,
-            firstName: userStore.payload?.firstName,
-            lastName: userStore.payload?.lastName
+            console.log(postResponse.comment);
+            addUserToComment(comment.id, {
+              id: userStore.payload?.id,
+              firstName: userStore.payload?.firstName,
+              lastName: userStore.payload?.lastName
+            })
           })
-          console.log(postResponse.comment);
-        })
-        .catch((err: any) => {
-          alert(err);
-        });
-    }
+          .catch((err: any) => {
+            alert(err);
+          });
   }
 
   const onRemove = (comment: Comment) => {
@@ -131,13 +134,15 @@ export const CommentListLayout: React.FC<{
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!userStore.payload) {
       alert("You must be logged in to perform this action!");
       return;
     }
+    const taskType = form.type
+    console.log(taskType)
     const lastName = userStore.payload.lastName;
     const lastInitial = lastName.charAt(0);
-    e.preventDefault();
     {
       const commentData: Partial<Comment> = {
         commentType: form.type,
@@ -154,12 +159,8 @@ export const CommentListLayout: React.FC<{
           alert(err);
         });
     }
-    clearForm();
+    clearForm(taskType);
   };
-
-  // useEffect(() => {
-  //   loggedInfo();
-  // }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -202,7 +203,8 @@ export const CommentListLayout: React.FC<{
         </form>
       </div>
       {comments.map((comment) => {
-        const isTask = comment.commentType === "task";
+        const isTask = comment.commentType == "task";
+        const isCommentArray = comment.users == undefined;
         return (
           <StyledProductListItem
             className="product-list-item-comment"
@@ -232,9 +234,14 @@ export const CommentListLayout: React.FC<{
                   <>
                   <div className="read-button-flex">
                     <div className="read-by-align">
-                      <h1 className="read-by-text">Read By: {comment.users.map((user) => {
-                        return user.firstName + " " + user.lastName
+                      <h1 className="read-by-text">Read By: {isCommentArray ? (<></>
+                      ) : (
+                        <>
+                        {comment.users.map((user) => {
+                          return user.firstName + " " + user.lastName
                       }).join(", ")} 
+                      </>
+                      )}
                       </h1>
                     </div>
                     <br></br>
