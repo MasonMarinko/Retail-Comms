@@ -46,7 +46,13 @@ export const ItemHome: React.FC = () => {
         setItemLists(items)
     }
 
-
+    
+    //====== Add Comment to commentList ===========//
+    const addComment = (comment:Partial<Comment>) => {
+        const comments = [...commentLists]
+        comments.push(comment as Comment)
+        setCommentLists(comments)
+    }
     
     //====== Remove Items from itemList Object ======//
     const removeItem = (item:Item) => {
@@ -55,20 +61,13 @@ export const ItemHome: React.FC = () => {
         const items = [...itemLists]
         setItemLists(items)
     }
-    
-    //====== Add Comment to commentList ===========//
-    const addComment = (comment:Partial<Comment>) => {
-        const comments = [...commentLists]
-        comments.push(comment as Comment)
-        setCommentLists(comments)
-    }
 
     //======= Remove Comment from commentList ======//
     const removeComment = (comment:Comment) => {
-        const commentIndex = commentLists.findIndex(something => something.id == comment.id)
+        const commentIndex = commentLists.findIndex(product => product.id == comment.id)
         commentLists.splice(commentIndex, 1)
-        const items = [...commentLists]
-        setCommentLists(items)
+        const comments = [...commentLists]
+        setCommentLists(comments)
     }
     
 

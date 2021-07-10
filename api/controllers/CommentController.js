@@ -19,7 +19,7 @@ router.get('/:id', function (req, res) {
 router.post('/', async function (req, res) {
   // validation here
   const data = {
-      ...pick(req.body, ["commentType", "employeeName", "message", "readBy"])
+      ...pick(req.body, ["commentType", "employeeName", "message", "createdBy", "readBy"])
   }
   const comment = new Comment
   comment.set(data)
@@ -55,10 +55,10 @@ router.post('/read/:id', async function (req, res) {
   await comment.save()
 })
 
-router.delete('/:commentNumber', async function (req, res) {
-  const commentNumber = req.params.id
+router.delete('/:commentID', async function (req, res) {
+  const commentNumber = req.params.commentID
 
-  Comment.deleteMany({ commentNumber }, function(err) {
+  Comment.deleteMany({ _id: commentNumber }, function(err) {
     if (err) return console.error(err);
     console.log("Success, comment deleted")
   })

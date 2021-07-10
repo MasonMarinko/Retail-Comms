@@ -90,7 +90,6 @@ export const ItemListLayout: React.FC<{
   };
 
   const onRemove = (item: Item) => {
-    console.log(item);
 
     ItemService.delete(item.itemNumber)
       .then((postResponse: any) => {

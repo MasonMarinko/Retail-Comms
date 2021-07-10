@@ -5,6 +5,7 @@ export interface Comment {
     commentType: string
     employeeName: string
     message: string
+    createdBy: string,
     readBy: []
     users: Partial<User>[]
 }

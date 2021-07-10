@@ -43,50 +43,24 @@ export const CommentListLayout: React.FC<{
   const [form, setForm] = useState({
     type: "task",
     employeeName: "",
-    message: ""
+    createdBy: "",
+    message: "",
+    readBy: ""
   });
 
-  const [readByNames, setReadByNames] = useState([""]);
-
   const userStore = useUserStore();
-  
-  // const loggedInfo = () => {
-    //   const token = localStorage.getItem("token");
-    //   console.log(form);
-    
-    //   if (!token) {
-      //     return;
-      //   }
-      //   {
-        //     const userTokenInfo = jwt.decode(token);
-        //     setUserInfoState(userTokenInfo);
-        //   }
-        // };
-        
-        // const setUserInfoState = (userInformation: any) => {
-          //   setUserInfo({
-            //     firstName: userInformation.firstName,
-            //     lastName: userInformation.lastName,
-            //     department: userInformation.department,
-            //   });
-            // };
-            
-            // const loggedIn = () => {
-              //   const token = localStorage.getItem("token");
-              //   return !!token;
-              // };
+
               
   const clearForm = (commentType:any) => {
     const formReset = {
       type: commentType,
       employeeName: "",
+      createdBy: "",
       message: "",
       readBy: ""
     };
     setForm(formReset);
   };
-
-  console.log("working")
 
   const onFieldChange = (
     name: keyof typeof form,
@@ -102,13 +76,7 @@ export const CommentListLayout: React.FC<{
 
   const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
     e.preventDefault()
-    console.log(userStore.payload)
-    // const commentData: Partial<Comment> = {
-    //   commentType: form.type,
-    //   employeeName: userStore.payload.firstName + " " + lastInitial,
-    //   message: form.message
-    // };
-  
+    
         CommentService.markCommentRead(comment.id, userStore.token)
         .then((postResponse: any) => {
             console.log(postResponse.comment);
@@ -140,13 +108,14 @@ export const CommentListLayout: React.FC<{
       return;
     }
     const taskType = form.type
-    console.log(taskType)
     const lastName = userStore.payload.lastName;
     const lastInitial = lastName.charAt(0);
+    const createdInfo = userStore.payload.id
     {
       const commentData: Partial<Comment> = {
         commentType: form.type,
         employeeName: userStore.payload.firstName + " " + lastInitial,
+        createdBy: createdInfo,
         message: form.message
       };
 
@@ -205,6 +174,7 @@ export const CommentListLayout: React.FC<{
       {comments.map((comment) => {
         const isTask = comment.commentType == "task";
         const isCommentArray = comment.users == undefined;
+        const ownPost = userStore.payload?.id == comment.createdBy
         return (
           <StyledProductListItem
             className="product-list-item-comment"
@@ -247,7 +217,11 @@ export const CommentListLayout: React.FC<{
                     <br></br>
                     <div className= "read-button">
                   <div className="comment-adjust-buttons">
-                    <Button onClick={(e: any) => onRead(e, comment)}>READ</Button>
+                    {ownPost ? (
+                    <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
+                    ): (
+                      <Button onClick={(e: any) => onRead(e, comment)}>READ</Button>
+                    )}
                     </div>
                     </div>
                     </div>

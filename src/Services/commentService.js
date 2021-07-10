@@ -6,13 +6,13 @@ const CommentService = {
        .then(result => result.data)
     },
     getAllComments:(data) => {
-        return apiService.get('/comment', data)
+        return apiService.get("/comment", data)
         .then (result => result.data)
     },
-    delete:(commentNumber) => {
-        console.log(commentNumber)
-        return apiService.delete(`/comment/${commentNumber}`)
-        .then (result=>result.data)
+    delete:(commentID) => {
+        return apiService.delete(`/comment/${commentID}`)
+        .then ((results) => {
+        })
     },
     markCommentRead:(commentID, token) => {
         return apiService.post(`/comment/read/${commentID}`, {}, {
