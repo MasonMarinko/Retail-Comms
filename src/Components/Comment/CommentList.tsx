@@ -97,9 +97,23 @@ export const CommentListLayout: React.FC<{
   }
 
   const onRemove = (comment: Comment) => {
-    const removeTaskConfirm = window.confirm("Are you sure you want to remove this task before it's completed?")
-
-    if (comment.createdBy == userStore.payload?.id) {
+    console.log(comment.commentType)
+    
+    if (comment.commentType == "memo") {
+      const removeMemoConfirm = window.confirm("Have all employees marked this as read?")
+      if (!removeMemoConfirm) {
+        return
+      } {
+        CommentService.delete(comment.id)
+        .then((postResponse: any) => {
+          removeComment(comment);
+        })
+        .catch((err: any) => {
+          alert("testing");
+        });
+      }
+    } else if (comment.commentType == "task") {
+      const removeTaskConfirm = window.confirm("Are you sure you want to remove this task before it's completed?")
       if (!removeTaskConfirm) {
         return
       } {
@@ -111,8 +125,6 @@ export const CommentListLayout: React.FC<{
             alert("testing");
           });
       }
-    } {
-      console.log("This user did NOT write this comment")
     }
   };
 
