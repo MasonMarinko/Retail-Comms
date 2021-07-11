@@ -45,8 +45,9 @@ export const CommentListLayout: React.FC<{
     employeeName: "",
     createdBy: "",
     message: "",
-    readBy: ""
   });
+
+  const [readArray, setReadArray] = useState({})
 
   const userStore = useUserStore();
 
@@ -76,29 +77,43 @@ export const CommentListLayout: React.FC<{
 
   const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
     e.preventDefault()
-    
-        CommentService.markCommentRead(comment.id, userStore.token)
-        .then((postResponse: any) => {
-            console.log(postResponse.comment);
-            addUserToComment(comment.id, {
-              id: userStore.payload?.id,
-              firstName: userStore.payload?.firstName,
-              lastName: userStore.payload?.lastName
-            })
+    const userReadArray = comment.readBy
+    if (userReadArray.includes(userStore.payload?.id)) {
+      alert("You have already indicated you read this memo!");
+      return;
+    } {
+      CommentService.markCommentRead(comment.id, userStore.token)
+      .then((postResponse: any) => {
+          addUserToComment(comment.id, {
+            id: userStore.payload?.id,
+            firstName: userStore.payload?.firstName,
+            lastName: userStore.payload?.lastName
           })
-          .catch((err: any) => {
-            alert(err);
-          });
+        })
+        .catch((err: any) => {
+          alert(err);
+        });
+    }
   }
 
   const onRemove = (comment: Comment) => {
-    CommentService.delete(comment.id)
-      .then((postResponse: any) => {
-        removeComment(comment);
-      })
-      .catch((err: any) => {
-        alert("testing");
-      });
+    const removeTaskConfirm = window.confirm("Are you sure you want to remove this task before it's completed?")
+
+    if (comment.createdBy == userStore.payload?.id) {
+      if (!removeTaskConfirm) {
+        return
+      } {
+        CommentService.delete(comment.id)
+          .then((postResponse: any) => {
+            removeComment(comment);
+          })
+          .catch((err: any) => {
+            alert("testing");
+          });
+      }
+    } {
+      console.log("This user did NOT write this comment")
+    }
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -121,7 +136,6 @@ export const CommentListLayout: React.FC<{
 
       CommentService.create(commentData)
         .then((postResponse: any) => {
-          console.log(postResponse.comment);
           addComment(postResponse.comment);
         })
         .catch((err: any) => {
@@ -197,7 +211,11 @@ export const CommentListLayout: React.FC<{
                 {isTask ? (
                   <>
                   <div className="comment-adjust-buttons">
-                  <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
+                    {ownPost ? (
+                      <Button onClick={() => onRemove(comment)}>REMOVE</Button>
+                    ) : (
+                      <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
+                    )}
                   </div>
                   </>
                 ) : (
@@ -218,7 +236,7 @@ export const CommentListLayout: React.FC<{
                     <div className= "read-button">
                   <div className="comment-adjust-buttons">
                     {ownPost ? (
-                    <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
+                    <Button onClick={() => onRemove(comment)}>REMOVE</Button>
                     ): (
                       <Button onClick={(e: any) => onRead(e, comment)}>READ</Button>
                     )}

@@ -11,6 +11,7 @@ import { User } from '../types/User'
 export const ItemHome: React.FC = () => {
     const [itemLists, setItemLists] = useState<Item[]>([])
     const [commentLists, setCommentLists]= useState<Comment[]>([])
+    const [readBy, setReadBy] = useState([])
     
 
     const getItemData = async () => {
@@ -32,12 +33,18 @@ export const ItemHome: React.FC = () => {
         const comments = [...commentLists]
         comments[commentIndex].users.push(userData)
         setCommentLists(comments)
+        getCommentData()
     }
+
+    const addReadBy = () => {
+        
+    }
+    
     
     useEffect(() => {
         getItemData();
         getCommentData();
-      }, []);
+    }, []);
 
     //====== Add Items to itemList Object ======//
     const addItem = (item:Partial<Item>) => {

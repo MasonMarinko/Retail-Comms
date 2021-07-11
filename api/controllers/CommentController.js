@@ -7,7 +7,7 @@ const authService = require ('../utils/auth')
 // define the home page route
 router.get('/', async function (req, res) {
   const comments = await Comment.find({})
-  .populate('users', 'id firstName lastName')
+  .populate('users', 'id firstName lastName readBy')
   .exec()
   res.json({comments})
 })
@@ -50,7 +50,7 @@ router.post('/read/:id', async function (req, res) {
   if (!user) {
     return res.status(404).json({message: 'User not found'})
   }
-  res.json({message: "User Added"})
+  res.json({comment: comment.toJSON()})
   comment.readBy.push(user.id)
   await comment.save()
 })
@@ -58,7 +58,7 @@ router.post('/read/:id', async function (req, res) {
 router.delete('/:commentID', async function (req, res) {
   const commentNumber = req.params.commentID
 
-  Comment.deleteMany({ _id: commentNumber }, function(err) {
+  Comment.deleteOne({ _id: commentNumber }, function(err) {
     if (err) return console.error(err);
     console.log("Success, comment deleted")
   })

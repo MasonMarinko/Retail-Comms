@@ -50,7 +50,6 @@ export const ItemListLayout: React.FC<{
 
   const loggedInfo = () => {
     const token = localStorage.getItem("token");
-    console.log(form);
 
     if (!token) {
       return;

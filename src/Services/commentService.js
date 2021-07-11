@@ -18,7 +18,7 @@ const CommentService = {
         return apiService.post(`/comment/read/${commentID}`, {}, {
             headers: {Authorization: token}
         })
-        .then ()
+        .then (results => results.data)
     }
     
 }
