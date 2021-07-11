@@ -89,14 +89,18 @@ export const ItemListLayout: React.FC<{
   };
 
   const onRemove = (item: Item) => {
-
-    ItemService.delete(item.itemNumber)
-      .then((postResponse: any) => {
-        removeItem(item);
-      })
-      .catch((err: any) => {
-        alert("testing");
-      });
+    const removeItemConfirm = window.confirm("Are you sure you want to remove this item?")
+    if (!removeItemConfirm) {
+      return
+    } {
+      ItemService.delete(item.itemNumber)
+        .then((postResponse: any) => {
+          removeItem(item);
+        })
+        .catch((err: any) => {
+          alert("testing");
+        });
+    }
   };
 
   const loggedIn = () => {
