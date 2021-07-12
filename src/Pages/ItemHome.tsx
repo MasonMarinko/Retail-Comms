@@ -10,9 +10,7 @@ import { User } from '../types/User'
 
 export const ItemHome: React.FC = () => {
     const [itemLists, setItemLists] = useState<Item[]>([])
-    const [commentLists, setCommentLists]= useState<Comment[]>([])
-    const [readBy, setReadBy] = useState([])
-    
+    const [commentLists, setCommentLists]= useState<Comment[]>([])    
 
     const getItemData = async () => {
         const grabData = await ItemService.getAllItems()
@@ -35,11 +33,6 @@ export const ItemHome: React.FC = () => {
         setCommentLists(comments)
         getCommentData()
     }
-
-    const addReadBy = () => {
-        
-    }
-    
     
     useEffect(() => {
         getItemData();

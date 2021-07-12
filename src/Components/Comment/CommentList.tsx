@@ -7,9 +7,8 @@ import "./commentList.css";
 import CommentService from "../../Services/commentService";
 import useUserStore from "../../Stores/userStore";
 import jwt from "jsonwebtoken";
-import { User } from '../../types/User'
+import { User } from "../../types/User";
 import { userInfo } from "node:os";
-
 
 const StyledProductListItem = styled.div`
   display: flex;
@@ -47,18 +46,15 @@ export const CommentListLayout: React.FC<{
     message: "",
   });
 
-  const [readArray, setReadArray] = useState({})
-
   const userStore = useUserStore();
 
-              
-  const clearForm = (commentType:any) => {
+  const clearForm = (commentType: any) => {
     const formReset = {
       type: commentType,
       employeeName: "",
       createdBy: "",
       message: "",
-      readBy: ""
+      readBy: "",
     };
     setForm(formReset);
   };
@@ -75,48 +71,75 @@ export const CommentListLayout: React.FC<{
     setForm(data);
   };
 
-  const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment:any) => {
-    e.preventDefault()
-    const userReadArray = comment.readBy
-    if (userReadArray.includes(userStore.payload?.id)) {
-      alert("You have already indicated you read this memo!");
+  const onTaskComplete = (
+    e: React.ChangeEvent<HTMLButtonElement>,
+    comment: any
+  ) => {
+    e.preventDefault();
+    if (!userStore.payload) {
+      alert("You must be logged in to perform this action!");
       return;
-    } {
+    }
+    const taskCompleteArray = comment.readBy;
+
+    if (taskCompleteArray.length > 0) {
+      alert("This task has already been marked as complete");
+      return;
+    }
+    {
       CommentService.markCommentRead(comment.id, userStore.token)
-      .then((postResponse: any) => {
+        .then((postResponse: any) => {
           addUserToComment(comment.id, {
             id: userStore.payload?.id,
             firstName: userStore.payload?.firstName,
-            lastName: userStore.payload?.lastName
-          })
+            lastName: userStore.payload?.lastName,
+          });
         })
         .catch((err: any) => {
           alert(err);
         });
     }
-  }
+  };
 
-  const onRemove = (comment: Comment) => {
-    console.log(comment.commentType)
-    
-    if (comment.commentType == "memo") {
-      const removeMemoConfirm = window.confirm("Have all employees marked this as read?")
-      if (!removeMemoConfirm) {
-        return
-      } {
-        CommentService.delete(comment.id)
+  const onRead = (e: React.ChangeEvent<HTMLButtonElement>, comment: any) => {
+    e.preventDefault();
+    if (!userStore.payload) {
+      alert("You must be logged in to perform this action!");
+      return;
+    }
+    const userReadArray = comment.readBy;
+    if (userReadArray.includes(userStore.payload?.id)) {
+      alert("You have already indicated you read this memo!");
+      return;
+    }
+    {
+      CommentService.markCommentRead(comment.id, userStore.token)
         .then((postResponse: any) => {
-          removeComment(comment);
+          addUserToComment(comment.id, {
+            id: userStore.payload?.id,
+            firstName: userStore.payload?.firstName,
+            lastName: userStore.payload?.lastName,
+          });
         })
         .catch((err: any) => {
-          alert("testing");
+          alert(err);
         });
+    }
+  };
+
+  const onRemove = (comment: Comment) => {
+    if (!userStore.payload) {
+      alert("You must be logged in to perform this action!");
+      return;
+    }
+    if (comment.commentType == "memo") {
+      const removeMemoConfirm = window.confirm(
+        "Before removing have you verified all employees have read this memo?"
+      );
+      if (!removeMemoConfirm) {
+        return;
       }
-    } else if (comment.commentType == "task") {
-      const removeTaskConfirm = window.confirm("Are you sure you want to remove this task before it's completed?")
-      if (!removeTaskConfirm) {
-        return
-      } {
+      {
         CommentService.delete(comment.id)
           .then((postResponse: any) => {
             removeComment(comment);
@@ -124,6 +147,46 @@ export const CommentListLayout: React.FC<{
           .catch((err: any) => {
             alert("testing");
           });
+      }
+    } else if (comment.commentType == "task") {
+      const userTaskArray = comment.users;
+      if (userTaskArray.length == 0) {
+        const removeTaskConfirm = window.confirm(
+          "Are you sure you want to remove this task before it's completed?"
+        );
+        if (!removeTaskConfirm) {
+          return;
+        }
+        {
+          CommentService.delete(comment.id)
+            .then((postResponse: any) => {
+              removeComment(comment);
+            })
+            .catch((err: any) => {
+              alert("testing");
+            });
+          return;
+        }
+      }
+      {
+        const userFirstName = comment.users[0].firstName;
+        const userLastName = comment.users[0].lastName;
+        const userFullName = " " + userFirstName + " " + userLastName + " ";
+        const employeeCompleteVerify = window.confirm(
+          "Have you verified that" + userFullName + "has completed the task?"
+        );
+        if (!employeeCompleteVerify) {
+          return;
+        }
+        {
+          CommentService.delete(comment.id)
+            .then((postResponse: any) => {
+              removeComment(comment);
+            })
+            .catch((err: any) => {
+              alert("testing");
+            });
+        }
       }
     }
   };
@@ -134,16 +197,16 @@ export const CommentListLayout: React.FC<{
       alert("You must be logged in to perform this action!");
       return;
     }
-    const taskType = form.type
+    const taskType = form.type;
     const lastName = userStore.payload.lastName;
     const lastInitial = lastName.charAt(0);
-    const createdInfo = userStore.payload.id
+    const createdInfo = userStore.payload.id;
     {
       const commentData: Partial<Comment> = {
         commentType: form.type,
         employeeName: userStore.payload.firstName + " " + lastInitial,
         createdBy: createdInfo,
-        message: form.message
+        message: form.message,
       };
 
       CommentService.create(commentData)
@@ -158,11 +221,11 @@ export const CommentListLayout: React.FC<{
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     if (token) {
-      userStore.setToken(token)
+      userStore.setToken(token);
     }
-  }, [])
+  }, []);
 
   return (
     <div className="form-comment-container">
@@ -200,7 +263,7 @@ export const CommentListLayout: React.FC<{
       {comments.map((comment) => {
         const isTask = comment.commentType == "task";
         const isCommentArray = comment.users == undefined;
-        const ownPost = userStore.payload?.id == comment.createdBy
+        const ownPost = userStore.payload?.id == comment.createdBy;
         return (
           <StyledProductListItem
             className="product-list-item-comment"
@@ -220,44 +283,78 @@ export const CommentListLayout: React.FC<{
                 </h3>
               </div>
               <br></br>
-                {isTask ? (
-                  <>
-                  <div className="comment-adjust-buttons">
-                    {ownPost ? (
-                      <Button onClick={() => onRemove(comment)}>REMOVE</Button>
-                    ) : (
-                      <Button onClick={() => onRemove(comment)}>COMPLETED</Button>
-                    )}
-                  </div>
-                  </>
-                ) : (
-                  <>
+              {isTask ? (
+                <>
                   <div className="read-button-flex">
                     <div className="read-by-align">
-                      <h1 className="read-by-text">Read By: {isCommentArray ? (<></>
-                      ) : (
-                        <>
-                        {comment.users.map((user) => {
-                          return user.firstName + " " + user.lastName
-                      }).join(", ")} 
-                      </>
-                      )}
+                      <h1 className="read-by-text">
+                        Completed By:{" "}
+                        {isCommentArray ? (
+                          <></>
+                        ) : (
+                          <>
+                            {comment.users
+                              .map((user) => {
+                                return user.firstName + " " + user.lastName;
+                              })
+                              .join(", ")}
+                          </>
+                        )}
                       </h1>
                     </div>
                     <br></br>
-                    <div className= "read-button">
-                  <div className="comment-adjust-buttons">
-                    {ownPost ? (
-                    <Button onClick={() => onRemove(comment)}>REMOVE</Button>
-                    ): (
-                      <Button onClick={(e: any) => onRead(e, comment)}>READ</Button>
-                    )}
+                    <div className="read-button">
+                      <div className="comment-adjust-buttons">
+                        {ownPost ? (
+                          <Button onClick={() => onRemove(comment)}>
+                            REMOVE
+                          </Button>
+                        ) : (
+                          <Button onClick={(e: any) => onTaskComplete(e, comment)}>
+                            COMPLETED
+                          </Button>
+                        )}
+                      </div>
                     </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="read-button-flex">
+                    <div className="read-by-align">
+                      <h1 className="read-by-text">
+                        Read By:{" "}
+                        {isCommentArray ? (
+                          <></>
+                        ) : (
+                          <>
+                            {comment.users
+                              .map((user) => {
+                                return user.firstName + " " + user.lastName;
+                              })
+                              .join(", ")}
+                          </>
+                        )}
+                      </h1>
                     </div>
+                    <br></br>
+                    <div className="read-button">
+                      <div className="comment-adjust-buttons">
+                        {ownPost ? (
+                          <Button onClick={() => onRemove(comment)}>
+                            REMOVE
+                          </Button>
+                        ) : (
+                          <Button onClick={(e: any) => onRead(e, comment)}>
+                            READ
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  </>
-                )}
-              </div>
+                  </div>
+                </>
+              )}
+            </div>
           </StyledProductListItem>
         );
       })}
