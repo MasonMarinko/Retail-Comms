@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserService from "../Services/userService";
 import useUserStore from "../Stores/userStore";
+import "./Login.css"
 
 export const Login: React.FC = () => {
   const [formState, setFormState] = useState({ username: "", password: "" });
@@ -58,16 +59,18 @@ export const Login: React.FC = () => {
             name="username"
             type="username"
             id="username"
+            className="login-boxes"
             onChange={(e) => handleChange("username", e)}
           />
         </div>
-        <div className="flex-row space-between my-2">
+        <div className="pw-contain">
           <label htmlFor="pwd">Password:</label>
           <input
             placeholder="******"
             name="password"
             type="password"
             id="pwd"
+            className = "login-boxes"
             onChange={(e) => handleChange("password", e)}
           />
         </div>

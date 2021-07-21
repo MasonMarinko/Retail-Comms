@@ -23,6 +23,7 @@ router.post('/', async function (req, res) {
   }
   const comment = new Comment
   comment.set(data)
+  .populate('users', 'id firstName lastName readBy')
   try {
     await comment.save()
   } catch (err) {

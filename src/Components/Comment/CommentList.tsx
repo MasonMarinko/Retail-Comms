@@ -95,9 +95,9 @@ export const CommentListLayout: React.FC<{
             lastName: userStore.payload?.lastName,
           });
         })
-        .catch((err: any) => {
-          alert(err);
-        });
+        // .catch((err: any) => {
+        //   alert(err);
+        // });
     }
   };
 
@@ -121,9 +121,9 @@ export const CommentListLayout: React.FC<{
             lastName: userStore.payload?.lastName,
           });
         })
-        .catch((err: any) => {
-          alert(err);
-        });
+        // .catch((err: any) => {
+        //   alert(err);
+        // });
     }
   };
 
@@ -132,23 +132,10 @@ export const CommentListLayout: React.FC<{
       alert("You must be logged in to perform this action!");
       return;
     }
-    if (comment.commentType == "memo") {
-      const removeMemoConfirm = window.confirm(
-        "Before removing have you verified all employees have read this memo?"
-      );
-      if (!removeMemoConfirm) {
-        return;
-      }
-      {
-        CommentService.delete(comment.id)
-          .then((postResponse: any) => {
-            removeComment(comment);
-          })
-          .catch((err: any) => {
-            alert("testing");
-          });
-      }
-    } else if (comment.commentType == "task") {
+
+
+    if (comment.commentType == "memo") ifMemo()
+    else if (comment.commentType == "task") {
       const userTaskArray = comment.users;
       if (userTaskArray.length == 0) {
         const removeTaskConfirm = window.confirm(
@@ -189,6 +176,24 @@ export const CommentListLayout: React.FC<{
         }
       }
     }
+    
+    function ifMemo() {
+      const removeMemoConfirm = window.confirm(
+        "Before removing have you verified all employees have read this memo?"
+      );
+      if (!removeMemoConfirm) {
+        return;
+      }
+      {
+        CommentService.delete(comment.id)
+          .then((postResponse: any) => {
+            removeComment(comment);
+          })
+          .catch((err: any) => {
+            alert("testing");
+          });
+      }
+    }
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -211,6 +216,7 @@ export const CommentListLayout: React.FC<{
 
       CommentService.create(commentData)
         .then((postResponse: any) => {
+          debugger
           addComment(postResponse.comment);
         })
         .catch((err: any) => {
@@ -340,7 +346,7 @@ export const CommentListLayout: React.FC<{
                     <br></br>
                     <div className="read-button">
                       <div className="comment-adjust-buttons">
-                        {ownPost ? (
+                      {ownPost ? (
                           <Button onClick={() => onRemove(comment)}>
                             REMOVE
                           </Button>
