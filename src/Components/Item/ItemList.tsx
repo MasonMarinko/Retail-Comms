@@ -39,6 +39,7 @@ export const ItemListLayout: React.FC<{
     itemNumber: "",
     itemName: "",
     itemPrice: "",
+    itemNotes: "",
     itemQuantity: "",
   });
 
@@ -74,6 +75,7 @@ export const ItemListLayout: React.FC<{
       itemNumber: "",
       itemName: "",
       itemPrice: "",
+      itemNotes: "",
       itemQuantity: "",
     };
     setForm(formReset);
@@ -89,10 +91,13 @@ export const ItemListLayout: React.FC<{
   };
 
   const onRemove = (item: Item) => {
-    const removeItemConfirm = window.confirm("Are you sure you want to remove this item?")
+    const removeItemConfirm = window.confirm(
+      "Are you sure you want to remove this item?"
+    );
     if (!removeItemConfirm) {
-      return
-    } {
+      return;
+    }
+    {
       ItemService.delete(item.itemNumber)
         .then((postResponse: any) => {
           removeItem(item);
@@ -122,6 +127,7 @@ export const ItemListLayout: React.FC<{
         itemNumber: parseInt(form.itemNumber),
         itemName: form.itemName,
         itemPrice: parseFloat(form.itemPrice),
+        itemNotes: form.itemNotes,
         itemQuantity: parseInt(form.itemQuantity),
       };
 
@@ -177,6 +183,15 @@ export const ItemListLayout: React.FC<{
           <br></br>
           <input
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onFieldChange("itemNotes", e)
+            }
+            className="info-input"
+            placeholder="Notes"
+            value={form.itemNotes}
+          ></input>
+          <br></br>
+          <input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               onFieldChange("itemQuantity", e)
             }
             className="info-input"
@@ -216,8 +231,13 @@ export const ItemListLayout: React.FC<{
               </div>
               <div className="quantity-div">
                 <h2 className="item-headers">Quantity:</h2>
-                <h3 className="item-info-bottom">{item.itemQuantity}</h3>
+                <h3 className="item-info">{item.itemQuantity}</h3>
               </div>
+              <div className="price-div">
+                <h2 className="item-headers">Notes:</h2>
+                <h3 className="item-info-bottom">{item.itemNotes}</h3>
+              </div>
+              
               {/* <Button>EDIT</Button> */}
               <Button onClick={() => onRemove(item)}>REMOVE</Button>
             </div>

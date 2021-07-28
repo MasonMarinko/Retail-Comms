@@ -4,5 +4,6 @@ export interface Item {
     itemNumber: number
     itemName: string
     itemPrice: number
+    itemNotes: string
     itemQuantity: number
 }

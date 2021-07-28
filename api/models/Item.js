@@ -26,6 +26,10 @@ const itemSchema = new Schema({
         type: Types.Number,
         required: true
     },
+    itemNotes: {
+        type: Types.String,
+        required: false
+    },
     createdAt: {
         type: Types.Date,
         default: Date.now,

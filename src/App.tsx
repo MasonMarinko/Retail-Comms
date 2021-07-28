@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {ItemHome} from "./Pages/ItemHome";
 import Nav from './Components/Nav';
 import {Login} from "./Pages/Login";
-import {Signup} from "./Pages/Signup"
+import {Signup} from "./Pages/Signup";
 
 const App: React.FC = () => {
     return (

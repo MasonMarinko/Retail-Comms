@@ -20,7 +20,7 @@ router.post('/', async function (req, res) {
     // validation here
     const data = {
         quantity: 1,
-        ...pick(req.body, ["employeeName", "itemName", "itemNumber", "itemPrice", "itemQuantity"])
+        ...pick(req.body, ["employeeName", "itemName", "itemNumber", "itemPrice", "itemNotes", "itemQuantity"])
     }
 
     const item = new Item
