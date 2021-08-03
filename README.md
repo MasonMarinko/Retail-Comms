@@ -70,6 +70,7 @@ Task vs Memo Person Reading View:
 - For now i'm using alerts to pass along errors or messages. These will be modals once the project is live. The alerts here are prompted by a user removing a task or memo before anyone has read or completed them. For now, the same message on memos is used for removing a memo with or without people having "read" it.
 
 Alert for Removing Memo Before Anyone Selected Read: 
+<br></br>
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
 Alert for Removing Memo Before Anyone Selected Completed: 
