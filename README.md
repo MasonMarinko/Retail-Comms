@@ -101,10 +101,10 @@ Tasks and Memos Marked as "read" and "completed":
 
 - When a user removes their own memo or task they will be met with different alerts. As mentioned before if the post has no one on it an alert will ask if they are sure they want to remove a comment that no one has completed. However, when removing one with users attached they will be met by 1 of 2 alerts. If a task is removed the alert will state "have you verified (users name) has completed the task" if a memo is removed it asks "have you verified that all users have read the memo". Again, for now, the same message on memos is used for removing a memo with or without people having "read" it.
 
-Alert Removing Memo With Users Attached: 
+- Alert Removing Memo With Users Attached: 
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-Alert Removing Task with User Attached: 
+- Alert Removing Task with User Attached: 
 ![image](./assets/images/remove_task_poster_view_completed.png)
 
 
