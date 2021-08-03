@@ -69,11 +69,11 @@ Task vs Memo Person Reading View:
 
 - For now i'm using alerts to pass along errors or messages. These will be modals once the project is live. The alerts here are prompted by a user removing a task or memo before anyone has read or completed them. For now, the same message on memos is used for removing a memo with or without people having "read" it.
 
-Alert for Removing Memo Before Anyone Selected Read: 
+- Alert for Removing Memo Before Anyone Selected Read: 
 
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-Alert for Removing Memo Before Anyone Selected Completed: 
+- Alert for Removing Memo Before Anyone Selected Completed: 
 
 ![image](./assets/images/alert_remove_task_before_selected.png)
 
@@ -82,10 +82,12 @@ Alert for Removing Memo Before Anyone Selected Completed:
 
 - First screenshot is an alert letting the employee know someone has already selected complete. The second is alerting an employee that they have already selected "read" on the memo.
 
-Alert That A User Has Already Completed Task: 
+- Alert That A User Has Already Completed Task:
+ 
 ![image](./assets/images/trying_to_complete_task_already_completed.png)
 
-Alert That User Has Already Selected Read: 
+- Alert That User Has Already Selected Read: 
+
 ![image](./assets/images/already_read_memo.png)
 
 
