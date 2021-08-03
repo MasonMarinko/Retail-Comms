@@ -86,8 +86,7 @@ Task vs Memo Person Reading View:
  
 ![image](./assets/images/trying_to_complete_task_already_completed.png)
 
-- Alert That User Has Already Selected Read: 
-
+- Alert That User Has Already Selected Read:   return 
 ![image](./assets/images/already_read_memo.png)
 
 
