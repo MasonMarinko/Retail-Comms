@@ -74,6 +74,7 @@ Alert for Removing Memo Before Anyone Selected Read:
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
 Alert for Removing Memo Before Anyone Selected Completed: 
+
 ![image](./assets/images/alert_remove_task_before_selected.png)
 
 
