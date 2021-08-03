@@ -33,7 +33,7 @@
 
 - Very simple home page, you can either post items or comments. When posting a comment you will select either a memo or task. Tasks are meant to be things that can be completed while memos are not things that can be completed but more passing information to employees and getting their acknowledgment that they've seen the message.
 
-Home Screen: 
+Home Screen:<br />
 ![image](./assets/images/home_page_nothing.png)
 
 
@@ -41,10 +41,10 @@ Home Screen:
 
 - In the meantime an item can be added and removed with the following information Item Number, Item Name, Item Price, Item Quantity. The users name will automatically posted if they're logged in. If a user is not logged in and tries to post they will be met with an error. I have multiple updates planned for items and posting. Adding/Removing quantity in case there is more than 1, the ability to open a drop down which someone could further specify things such a last one, display only, or other information the sales floor might like the member/customer to know.
 
-Item Posted: 
+Item Posted:<br />
 ![image](./assets/images/home_page_item_posted.png)
 
-Not Logged In Alert: 
+Not Logged In Alert:<br />
 ![image](./assets/images/posting_not_loggedin.png)
 
 
@@ -52,16 +52,16 @@ Not Logged In Alert:
 
 - Also for now this is for anyone to post a task or a memo for other employees to read or complete. A user that is not logged in will not be able to post a comment or select completed or read on a comment if they're not logged in.
 
-Comment Posted (Memo and Task to show different buttons): 
+Comment Posted (Memo and Task to show different buttons):<br />
 ![image](./assets/images/home_page_comment_posted.png)
 
 
 - There are also different views. The person posting the comment will only see remove buttons where the people reading the posts will see read for memos or completed for tasks.
 
-Task vs Memo Person Posting View: 
+Task vs Memo Person Posting View:<br />
 ![image](./assets/images/task_vs_memo_poster_view.png)
 
-Task vs Memo Person Reading View: 
+Task vs Memo Person Reading View:<br /> 
 ![image](./assets/images/task_vs_memo_reader_view.png)
 
 
@@ -72,7 +72,7 @@ Task vs Memo Person Reading View:
 Alert for Removing Memo Before Anyone Selected Read:<br />
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-Alert for Removing Memo Before Anyone Selected Completed:  &nbsp;
+Alert for Removing Memo Before Anyone Selected Completed:<br />
 ![image](./assets/images/alert_remove_task_before_selected.png)
 
 
@@ -80,10 +80,10 @@ Alert for Removing Memo Before Anyone Selected Completed:  &nbsp;
 
 - First screenshot is an alert letting the employee know someone has already selected complete. The second is alerting an employee that they have already selected "read" on the memo.
 
-Alert That A User Has Already Completed Task: 
+Alert That A User Has Already Completed Task:<br />
 ![image](./assets/images/trying_to_complete_task_already_completed.png)
 
-Alert That User Has Already Selected Read: 
+Alert That User Has Already Selected Read:<br />
 ![image](./assets/images/already_read_memo.png)
 
 
@@ -91,7 +91,7 @@ Alert That User Has Already Selected Read:
 
 - This is how the comments look with users attached as either completed or read.
 
-Tasks and Memos Marked as "read" and "completed":
+Tasks and Memos Marked as "read" and "completed":<br />
 ![image](./assets/images/marked_as_read_completed_reader_view.png)
 
 
@@ -99,10 +99,10 @@ Tasks and Memos Marked as "read" and "completed":
 
 - When a user removes their own memo or task they will be met with different alerts. As mentioned before if the post has no one on it an alert will ask if they are sure they want to remove a comment that no one has completed. However, when removing one with users attached they will be met by 1 of 2 alerts. If a task is removed the alert will state "have you verified (users name) has completed the task" if a memo is removed it asks "have you verified that all users have read the memo". Again, for now, the same message on memos is used for removing a memo with or without people having "read" it.
 
-Alert Removing Memo With Users Attached:
+Alert Removing Memo With Users Attached:<br />
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-Alert Removing Task with User Attached:
+Alert Removing Task with User Attached:<br />
 ![image](./assets/images/remove_task_poster_view_completed.png)
 
 
