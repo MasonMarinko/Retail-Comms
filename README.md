@@ -96,7 +96,7 @@ Task vs Memo Person Reading View:
 - This is how the comments look with users attached as either completed or read.
 
 Tasks and Memos Marked as "read" and "completed": 
-![image](./assets/images/marked_as_read_completed_reader_view.png.png)
+![image](./assets/images/marked_as_read_completed_reader_view.png)
 
 
 ### User Who Posted Removing Items Alerts
