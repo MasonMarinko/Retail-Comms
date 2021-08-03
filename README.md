@@ -69,12 +69,10 @@ Task vs Memo Person Reading View:
 
 - For now i'm using alerts to pass along errors or messages. These will be modals once the project is live. The alerts here are prompted by a user removing a task or memo before anyone has read or completed them. For now, the same message on memos is used for removing a memo with or without people having "read" it.
 
-- Alert for Removing Memo Before Anyone Selected Read: 
-
+Alert for Removing Memo Before Anyone Selected Read:  return
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-- Alert for Removing Memo Before Anyone Selected Completed: 
-
+Alert for Removing Memo Before Anyone Selected Completed:  return
 ![image](./assets/images/alert_remove_task_before_selected.png)
 
 
@@ -82,11 +80,10 @@ Task vs Memo Person Reading View:
 
 - First screenshot is an alert letting the employee know someone has already selected complete. The second is alerting an employee that they have already selected "read" on the memo.
 
-- Alert That A User Has Already Completed Task:
- 
+Alert That A User Has Already Completed Task:  return 
 ![image](./assets/images/trying_to_complete_task_already_completed.png)
 
-- Alert That User Has Already Selected Read:   return 
+Alert That User Has Already Selected Read:   return 
 ![image](./assets/images/already_read_memo.png)
 
 
@@ -94,7 +91,7 @@ Task vs Memo Person Reading View:
 
 - This is how the comments look with users attached as either completed or read.
 
-Tasks and Memos Marked as "read" and "completed": 
+Tasks and Memos Marked as "read" and "completed":  return
 ![image](./assets/images/marked_as_read_completed_reader_view.png)
 
 
@@ -102,10 +99,10 @@ Tasks and Memos Marked as "read" and "completed":
 
 - When a user removes their own memo or task they will be met with different alerts. As mentioned before if the post has no one on it an alert will ask if they are sure they want to remove a comment that no one has completed. However, when removing one with users attached they will be met by 1 of 2 alerts. If a task is removed the alert will state "have you verified (users name) has completed the task" if a memo is removed it asks "have you verified that all users have read the memo". Again, for now, the same message on memos is used for removing a memo with or without people having "read" it.
 
-- Alert Removing Memo With Users Attached: 
+Alert Removing Memo With Users Attached:  return
 ![image](./assets/images/alert_remove_memo_before_selected.png)
 
-- Alert Removing Task with User Attached: 
+Alert Removing Task with User Attached:  return
 ![image](./assets/images/remove_task_poster_view_completed.png)
 
 
